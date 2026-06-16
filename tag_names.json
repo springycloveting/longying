@@ -1,0 +1,1957 @@
+{
+  "0": {
+    "name": "力道",
+    "description": "力道潜力+5;力道+5",
+    "category": "武学"
+  },
+  "1": {
+    "name": "孔武有力",
+    "description": "力道潜力+10;力道+10",
+    "category": "武学"
+  },
+  "2": {
+    "name": "拔山扛鼎",
+    "description": "力道潜力+15;力道+15",
+    "category": "武学"
+  },
+  "3": {
+    "name": "灵巧",
+    "description": "灵巧潜力+5;灵巧+5",
+    "category": "武学"
+  },
+  "4": {
+    "name": "手疾眼快",
+    "description": "灵巧潜力+10;灵巧+10",
+    "category": "武学"
+  },
+  "5": {
+    "name": "七窍玲珑",
+    "description": "灵巧潜力+15;灵巧+15",
+    "category": "武学"
+  },
+  "6": {
+    "name": "智力",
+    "description": "智力潜力+5;智力+5",
+    "category": "武学"
+  },
+  "7": {
+    "name": "足智多谋",
+    "description": "智力潜力+10;智力+10",
+    "category": "武学"
+  },
+  "8": {
+    "name": "聪慧绝伦",
+    "description": "智力潜力+15;智力+15",
+    "category": "武学"
+  },
+  "9": {
+    "name": "意志",
+    "description": "意志潜力+5;意志+5",
+    "category": "武学"
+  },
+  "10": {
+    "name": "动心忍性",
+    "description": "意志潜力+10;意志+10",
+    "category": "武学"
+  },
+  "11": {
+    "name": "百折不挠",
+    "description": "意志潜力+15;意志+15",
+    "category": "武学"
+  },
+  "12": {
+    "name": "体质",
+    "description": "体质潜力+5;体质+5",
+    "category": "武学"
+  },
+  "13": {
+    "name": "强身健体",
+    "description": "体质潜力+10;体质+10",
+    "category": "武学"
+  },
+  "14": {
+    "name": "钢筋铁骨",
+    "description": "体质潜力+15;体质+15",
+    "category": "武学"
+  },
+  "15": {
+    "name": "经脉",
+    "description": "经脉潜力+5;经脉+5",
+    "category": "武学"
+  },
+  "16": {
+    "name": "运气自如",
+    "description": "经脉潜力+10;经脉+10",
+    "category": "武学"
+  },
+  "17": {
+    "name": "奇经八脉",
+    "description": "经脉潜力+15;经脉+15",
+    "category": "武学"
+  },
+  "18": {
+    "name": "内家",
+    "description": "内功潜力+5;内功+5",
+    "category": "武学"
+  },
+  "19": {
+    "name": "内力精纯",
+    "description": "内功潜力+10;内功+10",
+    "category": "武学"
+  },
+  "20": {
+    "name": "炉火纯青",
+    "description": "内功潜力+15;内功+15",
+    "category": "武学"
+  },
+  "21": {
+    "name": "轻功",
+    "description": "轻功潜力+5;轻功+5",
+    "category": "武学"
+  },
+  "22": {
+    "name": "飞檐走壁",
+    "description": "轻功潜力+10;轻功+10",
+    "category": "武学"
+  },
+  "23": {
+    "name": "神出鬼没",
+    "description": "轻功潜力+15;轻功+15",
+    "category": "武学"
+  },
+  "24": {
+    "name": "绝技",
+    "description": "绝技潜力+5;绝技+5",
+    "category": "武学"
+  },
+  "25": {
+    "name": "身怀绝技",
+    "description": "绝技潜力+10;绝技+10",
+    "category": "武学"
+  },
+  "26": {
+    "name": "绝艺超群",
+    "description": "绝技潜力+15;绝技+15",
+    "category": "武学"
+  },
+  "27": {
+    "name": "拳掌",
+    "description": "拳掌潜力+5;拳掌+5",
+    "category": "武学"
+  },
+  "28": {
+    "name": "拳不离手",
+    "description": "拳掌潜力+10;拳掌+10",
+    "category": "武学"
+  },
+  "29": {
+    "name": "铁手钢拳",
+    "description": "拳掌潜力+15;拳掌+15",
+    "category": "武学"
+  },
+  "30": {
+    "name": "御剑",
+    "description": "剑法潜力+5;剑法+5",
+    "category": "武学"
+  },
+  "31": {
+    "name": "剑随意动",
+    "description": "剑法潜力+10;剑法+10",
+    "category": "武学"
+  },
+  "32": {
+    "name": "人剑合一",
+    "description": "剑法潜力+15;剑法+15",
+    "category": "武学"
+  },
+  "33": {
+    "name": "耍刀",
+    "description": "刀法潜力+5;刀法+5",
+    "category": "武学"
+  },
+  "34": {
+    "name": "横刀跃马",
+    "description": "刀法潜力+10;刀法+10",
+    "category": "武学"
+  },
+  "35": {
+    "name": "一刀两断",
+    "description": "刀法潜力+15;刀法+15",
+    "category": "武学"
+  },
+  "36": {
+    "name": "长兵",
+    "description": "长兵潜力+5;长兵+5",
+    "category": "武学"
+  },
+  "37": {
+    "name": "舞枪弄棍",
+    "description": "长兵潜力+10;长兵+10",
+    "category": "武学"
+  },
+  "38": {
+    "name": "枪扫六合",
+    "description": "长兵潜力+15;长兵+15",
+    "category": "武学"
+  },
+  "39": {
+    "name": "奇门",
+    "description": "奇门潜力+5;奇门+5",
+    "category": "武学"
+  },
+  "40": {
+    "name": "旁门左道",
+    "description": "奇门潜力+10;奇门+10",
+    "category": "武学"
+  },
+  "41": {
+    "name": "奇门遁甲",
+    "description": "奇门潜力+15;奇门+15",
+    "category": "武学"
+  },
+  "42": {
+    "name": "射术",
+    "description": "射术潜力+5;射术+5",
+    "category": "武学"
+  },
+  "43": {
+    "name": "百步穿杨",
+    "description": "射术潜力+10;射术+10",
+    "category": "武学"
+  },
+  "44": {
+    "name": "例无虚发",
+    "description": "射术潜力+15;射术+15",
+    "category": "武学"
+  },
+  "45": {
+    "name": "外门",
+    "description": "护甲+5",
+    "category": "武学"
+  },
+  "46": {
+    "name": "坚若磐石",
+    "description": "护甲+10",
+    "category": "武学"
+  },
+  "47": {
+    "name": "刀枪不入",
+    "description": "护甲+15",
+    "category": "武学"
+  },
+  "48": {
+    "name": "掌风",
+    "description": "拳掌威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "49": {
+    "name": "排山倒海",
+    "description": "拳掌威力+0.1;内劲+0.1;拳掌距离+1",
+    "category": "武学"
+  },
+  "50": {
+    "name": "剑气",
+    "description": "剑法威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "51": {
+    "name": "气冲斗牛",
+    "description": "剑法威力+0.1;内劲+0.1;剑法距离+1",
+    "category": "武学"
+  },
+  "52": {
+    "name": "刀锋",
+    "description": "刀法威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "53": {
+    "name": "削铁无声",
+    "description": "刀法威力+0.1;内劲+0.1;刀法距离+1",
+    "category": "武学"
+  },
+  "54": {
+    "name": "枪芒",
+    "description": "长兵威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "55": {
+    "name": "枪出如龙",
+    "description": "长兵威力+0.1;内劲+0.1;长兵距离+1",
+    "category": "武学"
+  },
+  "56": {
+    "name": "奇技",
+    "description": "奇门威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "57": {
+    "name": "奇异莫名",
+    "description": "奇门威力+0.1;内劲+0.1;奇门距离+1",
+    "category": "武学"
+  },
+  "58": {
+    "name": "惊弓",
+    "description": "射术威力+0.05;内劲+0.05",
+    "category": "武学"
+  },
+  "59": {
+    "name": "摘叶飞花",
+    "description": "射术威力+0.1;内劲+0.1;射术距离+1",
+    "category": "武学"
+  },
+  "60": {
+    "name": "脱胎换骨",
+    "description": "复生+0.1;负面抗性+0.1",
+    "category": "高级"
+  },
+  "61": {
+    "name": "羽化登仙",
+    "description": "复生+0.15;负面抗性+0.15",
+    "category": "高级"
+  },
+  "62": {
+    "name": "不老长生",
+    "description": "复生+0.2;负面抗性+0.2",
+    "category": "高级"
+  },
+  "63": {
+    "name": "内息灼热",
+    "description": "灼烧+0.15",
+    "category": "高级"
+  },
+  "64": {
+    "name": "焚身烈焰",
+    "description": "灼烧+0.25",
+    "category": "高级"
+  },
+  "65": {
+    "name": "内息冰寒",
+    "description": "冰寒+0.15",
+    "category": "高级"
+  },
+  "66": {
+    "name": "刺骨奇寒",
+    "description": "冰寒+0.25",
+    "category": "高级"
+  },
+  "67": {
+    "name": "阴阳调和",
+    "description": "灼烧+0.1;冰寒+0.1;恢复+0.1;调息+0.1",
+    "category": "高级"
+  },
+  "68": {
+    "name": "先天真气",
+    "description": "内劲+0.15;护体真气+0.3",
+    "category": "高级"
+  },
+  "69": {
+    "name": "万物归墟",
+    "description": "护体真气+0.3;吸内+0.3",
+    "category": "高级"
+  },
+  "70": {
+    "name": "混元一气",
+    "description": "内劲+0.15;内伤+0.15",
+    "category": "高级"
+  },
+  "71": {
+    "name": "至阳至刚",
+    "description": "灼烧+0.1;外伤+0.2",
+    "category": "高级"
+  },
+  "72": {
+    "name": "至阴至柔",
+    "description": "冰寒+0.1;内伤+0.2",
+    "category": "高级"
+  },
+  "73": {
+    "name": "刚柔并济",
+    "description": "外伤+0.15;内伤+0.15",
+    "category": "高级"
+  },
+  "74": {
+    "name": "物我两忘",
+    "description": "轻灵+0.15;飘逸+0.15",
+    "category": "高级"
+  },
+  "75": {
+    "name": "移形换位",
+    "description": "轻功+30;绝技-15;闪避+0.15",
+    "category": "高级"
+  },
+  "76": {
+    "name": "陆地飞行",
+    "description": "轻功+10;速度+0.1;急速+0.1",
+    "category": "高级"
+  },
+  "77": {
+    "name": "扭转乾坤",
+    "description": "斗转+0.2;调息+0.2",
+    "category": "高级"
+  },
+  "78": {
+    "name": "不动如山",
+    "description": "绝技+30;轻功-15;伤害抗性+0.1",
+    "category": "高级"
+  },
+  "79": {
+    "name": "神鬼莫测",
+    "description": "绝技+20;轻功+10;反击+0.05",
+    "category": "高级"
+  },
+  "80": {
+    "name": "以劲御气",
+    "description": "绝技+10;外伤+0.1;内劲+0.1",
+    "category": "高级"
+  },
+  "81": {
+    "name": "艺成百家",
+    "description": "力道+5;灵巧+5;智力+5;意志+5;体质+5;经脉+5",
+    "category": "高级"
+  },
+  "82": {
+    "name": "武学宗师",
+    "description": "拳掌+5;剑法+5;刀法+5;长兵+5;奇门+5;射术+5",
+    "category": "高级"
+  },
+  "83": {
+    "name": "登峰造极",
+    "description": "伤害+0.15;伤害抗性+0.1",
+    "category": "高级"
+  },
+  "84": {
+    "name": "返璞归真",
+    "description": "真伤+0.25",
+    "category": "高级"
+  },
+  "85": {
+    "name": "起死回生",
+    "description": "复生+0.3",
+    "category": "高级"
+  },
+  "86": {
+    "name": "天人合一",
+    "description": "复生+0.1;无敌+0.1;康复+0.1",
+    "category": "高级"
+  },
+  "87": {
+    "name": "功德圆满",
+    "description": "霸体+0.15;伤害抗性+0.1",
+    "category": "高级"
+  },
+  "88": {
+    "name": "即身成佛",
+    "description": "无敌+0.15;真伤+0.15",
+    "category": "高级"
+  },
+  "89": {
+    "name": "太极圆转",
+    "description": "反弹+0.15",
+    "category": "高级"
+  },
+  "90": {
+    "name": "轰天震地",
+    "description": "眩晕+0.15;动摇+0.15",
+    "category": "高级"
+  },
+  "91": {
+    "name": "十殿阎王",
+    "description": "内伤+0.15;削内+0.6",
+    "category": "高级"
+  },
+  "92": {
+    "name": "力降十会",
+    "description": "力道+15;伤害+0.15",
+    "category": "高级"
+  },
+  "93": {
+    "name": "医术",
+    "description": "医术潜力+5;医术+10",
+    "category": "技艺"
+  },
+  "94": {
+    "name": "术精岐黄",
+    "description": "医术潜力+10;医术+20",
+    "category": "技艺"
+  },
+  "95": {
+    "name": "妙手回春",
+    "description": "医术潜力+15;医术+30",
+    "category": "技艺"
+  },
+  "96": {
+    "name": "毒术",
+    "description": "毒术潜力+5;毒术+10",
+    "category": "技艺"
+  },
+  "97": {
+    "name": "五毒俱全",
+    "description": "毒术潜力+10;毒术+20",
+    "category": "技艺"
+  },
+  "98": {
+    "name": "见血封喉",
+    "description": "毒术潜力+15;毒术+30",
+    "category": "技艺"
+  },
+  "99": {
+    "name": "学识",
+    "description": "学识潜力+5;学识+10",
+    "category": "技艺"
+  },
+  "100": {
+    "name": "见多识广",
+    "description": "学识潜力+10;学识+20",
+    "category": "技艺"
+  },
+  "101": {
+    "name": "学富五车",
+    "description": "学识潜力+15;学识+30",
+    "category": "技艺"
+  },
+  "102": {
+    "name": "口才",
+    "description": "口才潜力+5;口才+10",
+    "category": "技艺"
+  },
+  "103": {
+    "name": "口齿伶俐",
+    "description": "口才潜力+10;口才+20",
+    "category": "技艺"
+  },
+  "104": {
+    "name": "舌灿莲花",
+    "description": "口才潜力+15;口才+30",
+    "category": "技艺"
+  },
+  "105": {
+    "name": "采伐",
+    "description": "采伐潜力+5;采伐+10",
+    "category": "技艺"
+  },
+  "106": {
+    "name": "劈荆斩棘",
+    "description": "采伐潜力+10;采伐+20",
+    "category": "技艺"
+  },
+  "107": {
+    "name": "铸山煮海",
+    "description": "采伐潜力+15;采伐+30",
+    "category": "技艺"
+  },
+  "108": {
+    "name": "木植",
+    "description": "木植潜力+5;木植+10",
+    "category": "技艺"
+  },
+  "109": {
+    "name": "精耕细作",
+    "description": "木植潜力+10;木植+20",
+    "category": "技艺"
+  },
+  "110": {
+    "name": "万木争荣",
+    "description": "木植潜力+15;木植+30",
+    "category": "技艺"
+  },
+  "111": {
+    "name": "锻造",
+    "description": "锻造潜力+5;锻造+10",
+    "category": "技艺"
+  },
+  "112": {
+    "name": "千锤百炼",
+    "description": "锻造潜力+10;锻造+20",
+    "category": "技艺"
+  },
+  "113": {
+    "name": "鬼斧神工",
+    "description": "锻造潜力+15;锻造+30",
+    "category": "技艺"
+  },
+  "114": {
+    "name": "炼药",
+    "description": "炼药潜力+5;炼药+10",
+    "category": "技艺"
+  },
+  "115": {
+    "name": "对症下药",
+    "description": "炼药潜力+10;炼药+20",
+    "category": "技艺"
+  },
+  "116": {
+    "name": "灵丹妙药",
+    "description": "炼药潜力+15;炼药+30",
+    "category": "技艺"
+  },
+  "117": {
+    "name": "烹饪",
+    "description": "烹饪潜力+5;烹饪+10",
+    "category": "技艺"
+  },
+  "118": {
+    "name": "烩不厌细",
+    "description": "烹饪潜力+10;烹饪+20",
+    "category": "技艺"
+  },
+  "119": {
+    "name": "炮凤烹龙",
+    "description": "烹饪潜力+15;烹饪+30",
+    "category": "技艺"
+  },
+  "120": {
+    "name": "毒医",
+    "description": "医术+3;毒术+5;毒素+0.02",
+    "category": "技艺"
+  },
+  "121": {
+    "name": "以毒攻毒",
+    "description": "医术+5;毒术+10;毒素+0.05",
+    "category": "技艺"
+  },
+  "122": {
+    "name": "毒手药王",
+    "description": "医术+10;毒术+20;毒素+0.1",
+    "category": "技艺"
+  },
+  "123": {
+    "name": "医毒",
+    "description": "医术+5;毒术+3;自愈+1",
+    "category": "技艺"
+  },
+  "124": {
+    "name": "强壮",
+    "description": "力道+10;灵巧-5",
+    "category": "天生"
+  },
+  "125": {
+    "name": "魁梧奇伟",
+    "description": "力道+20;灵巧-10",
+    "category": "天生"
+  },
+  "126": {
+    "name": "天生神力",
+    "description": "力道+30;灵巧-15",
+    "category": "天生"
+  },
+  "127": {
+    "name": "瘦弱",
+    "description": "力道-10;灵巧+5",
+    "category": "天生"
+  },
+  "128": {
+    "name": "瘦骨嶙峋",
+    "description": "力道-20;灵巧+10",
+    "category": "天生"
+  },
+  "129": {
+    "name": "缚鸡之力",
+    "description": "力道-30;灵巧+15",
+    "category": "天生"
+  },
+  "130": {
+    "name": "机敏",
+    "description": "灵巧+10;力道-5",
+    "category": "天生"
+  },
+  "131": {
+    "name": "随机应变",
+    "description": "灵巧+20;力道-10",
+    "category": "天生"
+  },
+  "132": {
+    "name": "巧捷万端",
+    "description": "灵巧+30;力道-15",
+    "category": "天生"
+  },
+  "133": {
+    "name": "笨拙",
+    "description": "灵巧-10;力道+5",
+    "category": "天生"
+  },
+  "134": {
+    "name": "笨手笨脚",
+    "description": "灵巧-20;力道+10",
+    "category": "天生"
+  },
+  "135": {
+    "name": "东倒西歪",
+    "description": "灵巧-30;力道+15",
+    "category": "天生"
+  },
+  "136": {
+    "name": "聪慧",
+    "description": "智力+10;意志-5",
+    "category": "天生"
+  },
+  "137": {
+    "name": "天资过人",
+    "description": "智力+20;意志-10",
+    "category": "天生"
+  },
+  "138": {
+    "name": "旷世奇才",
+    "description": "智力+30;意志-15",
+    "category": "天生"
+  },
+  "139": {
+    "name": "愚钝",
+    "description": "智力-10;意志+5",
+    "category": "天生"
+  },
+  "140": {
+    "name": "傻头傻脑",
+    "description": "智力-20;意志+10",
+    "category": "天生"
+  },
+  "141": {
+    "name": "痴傻蒙昧",
+    "description": "智力-30;意志+15",
+    "category": "天生"
+  },
+  "142": {
+    "name": "勇敢",
+    "description": "意志+10;智力-5",
+    "category": "天生"
+  },
+  "143": {
+    "name": "身先士卒",
+    "description": "意志+20;智力-10",
+    "category": "天生"
+  },
+  "144": {
+    "name": "临危不乱",
+    "description": "意志+30;智力-15",
+    "category": "天生"
+  },
+  "145": {
+    "name": "懦弱",
+    "description": "意志-10;智力+5",
+    "category": "天生"
+  },
+  "146": {
+    "name": "战战兢兢",
+    "description": "意志-20;智力+10",
+    "category": "天生"
+  },
+  "147": {
+    "name": "胆小如鼠",
+    "description": "意志-30;智力+15",
+    "category": "天生"
+  },
+  "148": {
+    "name": "康健",
+    "description": "体质+10;经脉-5",
+    "category": "天生"
+  },
+  "149": {
+    "name": "容光焕发",
+    "description": "体质+20;经脉-10",
+    "category": "天生"
+  },
+  "150": {
+    "name": "百病不侵",
+    "description": "体质+30;经脉-15",
+    "category": "天生"
+  },
+  "151": {
+    "name": "多病",
+    "description": "体质-10;经脉+5",
+    "category": "天生"
+  },
+  "152": {
+    "name": "身心交病",
+    "description": "体质-20;经脉+10",
+    "category": "天生"
+  },
+  "153": {
+    "name": "旧病沉疴",
+    "description": "体质-30;经脉+15",
+    "category": "天生"
+  },
+  "154": {
+    "name": "顺脉",
+    "description": "经脉+10;体质-5",
+    "category": "天生"
+  },
+  "155": {
+    "name": "脉络贯通",
+    "description": "经脉+20;体质-10",
+    "category": "天生"
+  },
+  "156": {
+    "name": "先天气海",
+    "description": "经脉+30;体质-15",
+    "category": "天生"
+  },
+  "157": {
+    "name": "滞脉",
+    "description": "经脉-10;体质+5",
+    "category": "天生"
+  },
+  "158": {
+    "name": "脉络阻塞",
+    "description": "经脉-20;体质+10",
+    "category": "天生"
+  },
+  "159": {
+    "name": "经脉断绝",
+    "description": "经脉-30;体质+15",
+    "category": "天生"
+  },
+  "160": {
+    "name": "正直",
+    "description": "压制+0.1;暴击-0.05",
+    "category": "天生"
+  },
+  "161": {
+    "name": "公正不阿",
+    "description": "压制+0.2;暴击-0.1",
+    "category": "天生"
+  },
+  "162": {
+    "name": "浩气凛然",
+    "description": "压制+0.3;暴击-0.15",
+    "category": "天生"
+  },
+  "163": {
+    "name": "阴险",
+    "description": "压制-0.1;暴击+0.05",
+    "category": "天生"
+  },
+  "164": {
+    "name": "不择手段",
+    "description": "压制-0.2;暴击+0.1",
+    "category": "天生"
+  },
+  "165": {
+    "name": "笑里藏刀",
+    "description": "压制-0.3;暴击+0.15",
+    "category": "天生"
+  },
+  "166": {
+    "name": "仁慈",
+    "description": "卸力+0.1;伤害-0.05",
+    "category": "天生"
+  },
+  "167": {
+    "name": "宅心仁厚",
+    "description": "卸力+0.2;伤害-0.1",
+    "category": "天生"
+  },
+  "168": {
+    "name": "慈悲为怀",
+    "description": "卸力+0.3;伤害-0.15",
+    "category": "天生"
+  },
+  "169": {
+    "name": "残忍",
+    "description": "卸力-0.1;伤害+0.05",
+    "category": "天生"
+  },
+  "170": {
+    "name": "心狠手辣",
+    "description": "卸力-0.2;伤害+0.1",
+    "category": "天生"
+  },
+  "171": {
+    "name": "灭心绝情",
+    "description": "卸力-0.3;伤害+0.15",
+    "category": "天生"
+  },
+  "172": {
+    "name": "冷静",
+    "description": "闪避+0.1;连击-0.05",
+    "category": "天生"
+  },
+  "173": {
+    "name": "气定神闲",
+    "description": "闪避+0.2;连击-0.1",
+    "category": "天生"
+  },
+  "174": {
+    "name": "心如止水",
+    "description": "闪避+0.3;连击-0.15",
+    "category": "天生"
+  },
+  "175": {
+    "name": "暴躁",
+    "description": "闪避-0.1;连击+0.05",
+    "category": "天生"
+  },
+  "176": {
+    "name": "性烈如火",
+    "description": "闪避-0.2;连击+0.1",
+    "category": "天生"
+  },
+  "177": {
+    "name": "怒发冲冠",
+    "description": "闪避-0.3;连击+0.15",
+    "category": "天生"
+  },
+  "178": {
+    "name": "幸运",
+    "description": "暴击+0.1;卸力-0.05",
+    "category": "天生"
+  },
+  "179": {
+    "name": "福星高照",
+    "description": "暴击+0.2;卸力-0.1",
+    "category": "天生"
+  },
+  "180": {
+    "name": "吉人天相",
+    "description": "暴击+0.3;卸力-0.15",
+    "category": "天生"
+  },
+  "181": {
+    "name": "不幸",
+    "description": "暴击-0.1;卸力+0.05",
+    "category": "天生"
+  },
+  "182": {
+    "name": "命途多舛",
+    "description": "暴击-0.2;卸力+0.1",
+    "category": "天生"
+  },
+  "183": {
+    "name": "天煞孤星",
+    "description": "暴击-0.3;卸力+0.15",
+    "category": "天生"
+  },
+  "184": {
+    "name": "美貌",
+    "description": "好感获取+0.1;负面抗性-0.05",
+    "category": "天生"
+  },
+  "185": {
+    "name": "明眸皓齿",
+    "description": "好感获取+0.2;负面抗性-0.1",
+    "category": "天生"
+  },
+  "186": {
+    "name": "倾国倾城",
+    "description": "好感获取+0.3;负面抗性-0.15",
+    "category": "天生"
+  },
+  "187": {
+    "name": "丑陋",
+    "description": "好感获取-0.1;负面抗性+0.05",
+    "category": "天生"
+  },
+  "188": {
+    "name": "面目狰狞",
+    "description": "好感获取-0.2;负面抗性+0.1",
+    "category": "天生"
+  },
+  "189": {
+    "name": "百丑千拙",
+    "description": "好感获取-0.3;负面抗性+0.15",
+    "category": "天生"
+  },
+  "190": {
+    "name": "锐眼",
+    "description": "命中+0.1;反击-0.05",
+    "category": "天生"
+  },
+  "191": {
+    "name": "目光炯炯",
+    "description": "命中+0.2;反击-0.1",
+    "category": "天生"
+  },
+  "192": {
+    "name": "明察秋毫",
+    "description": "命中+0.3;反击-0.15",
+    "category": "天生"
+  },
+  "193": {
+    "name": "弱视",
+    "description": "命中-0.1;反击+0.05",
+    "category": "天生"
+  },
+  "194": {
+    "name": "视线模糊",
+    "description": "命中-0.2;反击+0.1",
+    "category": "天生"
+  },
+  "195": {
+    "name": "雾里看花",
+    "description": "命中-0.3;反击+0.15",
+    "category": "天生"
+  },
+  "196": {
+    "name": "谦逊",
+    "description": "反击+0.1;压制-0.05",
+    "category": "天生"
+  },
+  "197": {
+    "name": "不骄不躁",
+    "description": "反击+0.2;压制-0.1",
+    "category": "天生"
+  },
+  "198": {
+    "name": "虚怀若谷",
+    "description": "反击+0.3;压制-0.15",
+    "category": "天生"
+  },
+  "199": {
+    "name": "刚愎",
+    "description": "反击-0.1;压制+0.05",
+    "category": "天生"
+  },
+  "200": {
+    "name": "盛气凌人",
+    "description": "反击-0.2;压制+0.1",
+    "category": "天生"
+  },
+  "201": {
+    "name": "唯我独尊",
+    "description": "反击-0.3;压制+0.15",
+    "category": "天生"
+  },
+  "202": {
+    "name": "忠诚",
+    "description": "恢复效率+0.1;闪避-0.05",
+    "category": "天生"
+  },
+  "203": {
+    "name": "忠心耿耿",
+    "description": "恢复效率+0.2;闪避-0.1",
+    "category": "天生"
+  },
+  "204": {
+    "name": "至死不渝",
+    "description": "恢复效率+0.3;闪避-0.15",
+    "category": "天生"
+  },
+  "205": {
+    "name": "叛逆",
+    "description": "恢复效率-0.1;闪避+0.05",
+    "category": "天生"
+  },
+  "206": {
+    "name": "桀骜不驯",
+    "description": "恢复效率-0.2;闪避+0.1",
+    "category": "天生"
+  },
+  "207": {
+    "name": "离经叛道",
+    "description": "恢复效率-0.3;闪避+0.15",
+    "category": "天生"
+  },
+  "208": {
+    "name": "勤奋",
+    "description": "经验获取+0.1;负面抗性-0.05",
+    "category": "天生"
+  },
+  "209": {
+    "name": "孜孜不倦",
+    "description": "经验获取+0.2;负面抗性-0.1",
+    "category": "天生"
+  },
+  "210": {
+    "name": "废寝忘食",
+    "description": "经验获取+0.3;负面抗性-0.15",
+    "category": "天生"
+  },
+  "211": {
+    "name": "懒惰",
+    "description": "经验获取-0.1;负面抗性+0.05",
+    "category": "天生"
+  },
+  "212": {
+    "name": "游手好闲",
+    "description": "经验获取-0.2;负面抗性+0.1",
+    "category": "天生"
+  },
+  "213": {
+    "name": "无所用心",
+    "description": "经验获取-0.3;负面抗性+0.15",
+    "category": "天生"
+  },
+  "214": {
+    "name": "节俭",
+    "description": "连击+0.1;恢复效率-0.05",
+    "category": "天生"
+  },
+  "215": {
+    "name": "精打细算",
+    "description": "连击+0.2;恢复效率-0.1",
+    "category": "天生"
+  },
+  "216": {
+    "name": "取予有节",
+    "description": "连击+0.3;恢复效率-0.15",
+    "category": "天生"
+  },
+  "217": {
+    "name": "浪费",
+    "description": "连击-0.1;恢复效率+0.05",
+    "category": "天生"
+  },
+  "218": {
+    "name": "挥霍无度",
+    "description": "连击-0.2;恢复效率+0.1",
+    "category": "天生"
+  },
+  "219": {
+    "name": "穷奢极欲",
+    "description": "连击-0.3;恢复效率+0.15",
+    "category": "天生"
+  },
+  "220": {
+    "name": "练武",
+    "description": "实战经验+0.1;理论经验+0.1",
+    "category": "志向"
+  },
+  "221": {
+    "name": "武痴",
+    "description": "实战经验+0.2;理论经验+0.2",
+    "category": "志向"
+  },
+  "222": {
+    "name": "武学天才",
+    "description": "实战经验+0.3;理论经验+0.3",
+    "category": "志向"
+  },
+  "223": {
+    "name": "学医",
+    "description": "医术经验+0.2;毒术经验+0.2",
+    "category": "志向"
+  },
+  "224": {
+    "name": "医师",
+    "description": "医术经验+0.4;毒术经验+0.4",
+    "category": "志向"
+  },
+  "225": {
+    "name": "济世神医",
+    "description": "医术经验+0.6;毒术经验+0.6",
+    "category": "志向"
+  },
+  "226": {
+    "name": "习文",
+    "description": "学识经验+0.2;口才经验+0.2",
+    "category": "志向"
+  },
+  "227": {
+    "name": "雅士",
+    "description": "学识经验+0.4;口才经验+0.4",
+    "category": "志向"
+  },
+  "228": {
+    "name": "文采斐然",
+    "description": "学识经验+0.6;口才经验+0.6",
+    "category": "志向"
+  },
+  "229": {
+    "name": "务农",
+    "description": "采伐经验+0.2;木植经验+0.2",
+    "category": "志向"
+  },
+  "230": {
+    "name": "农家",
+    "description": "采伐经验+0.4;木植经验+0.4",
+    "category": "志向"
+  },
+  "231": {
+    "name": "在世神农",
+    "description": "采伐经验+0.6;木植经验+0.6",
+    "category": "志向"
+  },
+  "232": {
+    "name": "学徒",
+    "description": "锻造经验+0.2;炼药经验+0.2;烹饪经验+0.2",
+    "category": "志向"
+  },
+  "233": {
+    "name": "工匠",
+    "description": "锻造经验+0.4;炼药经验+0.4;烹饪经验+0.4",
+    "category": "志向"
+  },
+  "234": {
+    "name": "能工巧匠",
+    "description": "锻造经验+0.6;炼药经验+0.6;烹饪经验+0.6",
+    "category": "志向"
+  },
+  "235": {
+    "name": "经商",
+    "description": "买卖优势+0.05",
+    "category": "志向"
+  },
+  "236": {
+    "name": "善贾",
+    "description": "买卖优势+0.1",
+    "category": "志向"
+  },
+  "237": {
+    "name": "囤积居奇",
+    "description": "买卖优势+0.15",
+    "category": "志向"
+  },
+  "238": {
+    "name": "从政",
+    "description": "功绩获取+0.1;声望获取+0.1",
+    "category": "志向"
+  },
+  "239": {
+    "name": "仕官",
+    "description": "功绩获取+0.2;声望获取+0.2",
+    "category": "志向"
+  },
+  "240": {
+    "name": "位极人臣",
+    "description": "功绩获取+0.3;声望获取+0.3",
+    "category": "志向"
+  },
+  "241": {
+    "name": "杂学",
+    "description": "技艺经验+0.1",
+    "category": "志向"
+  },
+  "242": {
+    "name": "通才",
+    "description": "技艺经验+0.2",
+    "category": "志向"
+  },
+  "243": {
+    "name": "博学多才",
+    "description": "技艺经验+0.3",
+    "category": "志向"
+  },
+  "244": {
+    "name": "淡泊",
+    "description": "功绩获取-0.05;声望获取-0.05;负面抗性+0.05",
+    "category": "志向"
+  },
+  "245": {
+    "name": "隐士",
+    "description": "功绩获取-0.1;声望获取-0.1;负面抗性+0.1",
+    "category": "志向"
+  },
+  "246": {
+    "name": "避世绝俗",
+    "description": "功绩获取-0.15;声望获取-0.15;负面抗性+0.15",
+    "category": "志向"
+  },
+  "247": {
+    "name": "儒术",
+    "description": "经验获取+0.05",
+    "category": "志向"
+  },
+  "248": {
+    "name": "儒生",
+    "description": "经验获取+0.1",
+    "category": "志向"
+  },
+  "249": {
+    "name": "鸿儒大学",
+    "description": "经验获取+0.15",
+    "category": "志向"
+  },
+  "250": {
+    "name": "修道",
+    "description": "复生+0.05",
+    "category": "志向"
+  },
+  "251": {
+    "name": "道士",
+    "description": "复生+0.1",
+    "category": "志向"
+  },
+  "252": {
+    "name": "仙风道骨",
+    "description": "复生+0.15",
+    "category": "志向"
+  },
+  "253": {
+    "name": "学佛",
+    "description": "霸体+0.05",
+    "category": "志向"
+  },
+  "254": {
+    "name": "禅师",
+    "description": "霸体+0.1",
+    "category": "志向"
+  },
+  "255": {
+    "name": "四大皆空",
+    "description": "霸体+0.15",
+    "category": "志向"
+  },
+  "256": {
+    "name": "行乞",
+    "description": "横练+0.05",
+    "category": "志向"
+  },
+  "257": {
+    "name": "化缘",
+    "description": "横练+0.1",
+    "category": "志向"
+  },
+  "258": {
+    "name": "游戏人间",
+    "description": "横练+0.15",
+    "category": "志向"
+  },
+  "259": {
+    "name": "卜算",
+    "description": "闪避+0.05",
+    "category": "志向"
+  },
+  "260": {
+    "name": "相士",
+    "description": "闪避+0.1",
+    "category": "志向"
+  },
+  "261": {
+    "name": "未卜先知",
+    "description": "闪避+0.15",
+    "category": "志向"
+  },
+  "262": {
+    "name": "游侠",
+    "description": "飘逸+0.05",
+    "category": "志向"
+  },
+  "263": {
+    "name": "侠客",
+    "description": "飘逸+0.1",
+    "category": "志向"
+  },
+  "264": {
+    "name": "侠义无双",
+    "description": "飘逸+0.15",
+    "category": "志向"
+  },
+  "265": {
+    "name": "赌徒",
+    "description": "慧眼+0.05",
+    "category": "喜好"
+  },
+  "266": {
+    "name": "嗜赌如命",
+    "description": "慧眼+0.1",
+    "category": "喜好"
+  },
+  "267": {
+    "name": "赌运亨通",
+    "description": "慧眼+0.15",
+    "category": "喜好"
+  },
+  "268": {
+    "name": "酒鬼",
+    "description": "壮骨+0.05",
+    "category": "喜好"
+  },
+  "269": {
+    "name": "放歌纵酒",
+    "description": "壮骨+0.1",
+    "category": "喜好"
+  },
+  "270": {
+    "name": "醉生梦死",
+    "description": "壮骨+0.15",
+    "category": "喜好"
+  },
+  "271": {
+    "name": "食客",
+    "description": "活血+0.05",
+    "category": "喜好"
+  },
+  "272": {
+    "name": "大快朵颐",
+    "description": "活血+0.1",
+    "category": "喜好"
+  },
+  "273": {
+    "name": "饕餮盛宴",
+    "description": "活血+0.15",
+    "category": "喜好"
+  },
+  "274": {
+    "name": "收藏",
+    "description": "鹰眼+0.05",
+    "category": "喜好"
+  },
+  "275": {
+    "name": "去伪存真",
+    "description": "鹰眼+0.1",
+    "category": "喜好"
+  },
+  "276": {
+    "name": "慧眼独具",
+    "description": "鹰眼+0.15",
+    "category": "喜好"
+  },
+  "277": {
+    "name": "骑术",
+    "description": "急速+0.05",
+    "category": "喜好"
+  },
+  "278": {
+    "name": "纵马驰骋",
+    "description": "急速+0.1",
+    "category": "喜好"
+  },
+  "279": {
+    "name": "一骑绝尘",
+    "description": "急速+0.15",
+    "category": "喜好"
+  },
+  "280": {
+    "name": "读书",
+    "description": "定神+0.05",
+    "category": "喜好"
+  },
+  "281": {
+    "name": "博览群书",
+    "description": "定神+0.1",
+    "category": "喜好"
+  },
+  "282": {
+    "name": "皓首穷经",
+    "description": "定神+0.15",
+    "category": "喜好"
+  },
+  "283": {
+    "name": "瑶琴",
+    "description": "负面加成+0.05",
+    "category": "喜好"
+  },
+  "284": {
+    "name": "余音绕梁",
+    "description": "负面加成+0.1",
+    "category": "喜好"
+  },
+  "285": {
+    "name": "鸾吟凤唱",
+    "description": "负面加成+0.15",
+    "category": "喜好"
+  },
+  "286": {
+    "name": "弈棋",
+    "description": "破招+0.05",
+    "category": "喜好"
+  },
+  "287": {
+    "name": "棋高一着",
+    "description": "破招+0.1",
+    "category": "喜好"
+  },
+  "288": {
+    "name": "神机妙算",
+    "description": "破招+0.15",
+    "category": "喜好"
+  },
+  "289": {
+    "name": "书法",
+    "description": "通脉+0.05",
+    "category": "喜好"
+  },
+  "290": {
+    "name": "笔走龙蛇",
+    "description": "通脉+0.1",
+    "category": "喜好"
+  },
+  "291": {
+    "name": "铁画银钩",
+    "description": "通脉+0.15",
+    "category": "喜好"
+  },
+  "292": {
+    "name": "绘画",
+    "description": "连绵+0.05",
+    "category": "喜好"
+  },
+  "293": {
+    "name": "丹青妙手",
+    "description": "连绵+0.1",
+    "category": "喜好"
+  },
+  "294": {
+    "name": "妙至毫巅",
+    "description": "连绵+0.15",
+    "category": "喜好"
+  },
+  "295": {
+    "name": "吟诗",
+    "description": "醒脑+0.05",
+    "category": "喜好"
+  },
+  "296": {
+    "name": "文思泉涌",
+    "description": "醒脑+0.1",
+    "category": "喜好"
+  },
+  "297": {
+    "name": "七步成诗",
+    "description": "醒脑+0.15",
+    "category": "喜好"
+  },
+  "298": {
+    "name": "狩猎",
+    "description": "轻灵+0.05",
+    "category": "喜好"
+  },
+  "299": {
+    "name": "飞鹰走犬",
+    "description": "轻灵+0.1",
+    "category": "喜好"
+  },
+  "300": {
+    "name": "苍鹰搏兔",
+    "description": "轻灵+0.15",
+    "category": "喜好"
+  },
+  "301": {
+    "name": "云游",
+    "description": "旅行速度+0.1",
+    "category": "喜好"
+  },
+  "302": {
+    "name": "游山玩水",
+    "description": "旅行速度+0.2",
+    "category": "喜好"
+  },
+  "303": {
+    "name": "浪迹天涯",
+    "description": "旅行速度+0.3",
+    "category": "喜好"
+  },
+  "304": {
+    "name": "静修",
+    "description": "坚毅+0.05",
+    "category": "喜好"
+  },
+  "305": {
+    "name": "蛰居偃伏",
+    "description": "坚毅+0.1",
+    "category": "喜好"
+  },
+  "306": {
+    "name": "面壁功深",
+    "description": "坚毅+0.15",
+    "category": "喜好"
+  },
+  "307": {
+    "name": "舞技",
+    "description": "舒筋+0.05",
+    "category": "喜好"
+  },
+  "308": {
+    "name": "舞态生风",
+    "description": "舒筋+0.1",
+    "category": "喜好"
+  },
+  "309": {
+    "name": "羽衣蹁跹",
+    "description": "舒筋+0.15",
+    "category": "喜好"
+  },
+  "310": {
+    "name": "随从",
+    "description": "灵巧+2;体质+2",
+    "category": "战法"
+  },
+  "311": {
+    "name": "唯命是从",
+    "description": "灵巧+4;体质+4",
+    "category": "战法"
+  },
+  "312": {
+    "name": "精明强干",
+    "description": "灵巧+6;体质+6",
+    "category": "战法"
+  },
+  "313": {
+    "name": "军师",
+    "description": "智力+2;经脉+2",
+    "category": "战法"
+  },
+  "314": {
+    "name": "排兵布阵",
+    "description": "智力+4;经脉+4",
+    "category": "战法"
+  },
+  "315": {
+    "name": "运筹帷幄",
+    "description": "智力+6;经脉+6",
+    "category": "战法"
+  },
+  "316": {
+    "name": "领袖",
+    "description": "力道+2;意志+2",
+    "category": "战法"
+  },
+  "317": {
+    "name": "胸怀大志",
+    "description": "力道+4;意志+4",
+    "category": "战法"
+  },
+  "318": {
+    "name": "雄才伟略",
+    "description": "力道+6;意志+6",
+    "category": "战法"
+  },
+  "319": {
+    "name": "先锋",
+    "description": "伤害+0.04;卸力-0.02",
+    "category": "战法"
+  },
+  "320": {
+    "name": "奋勇当先",
+    "description": "伤害+0.08;卸力-0.04",
+    "category": "战法"
+  },
+  "321": {
+    "name": "背水一战",
+    "description": "伤害+0.12;卸力-0.06",
+    "category": "战法"
+  },
+  "322": {
+    "name": "守备",
+    "description": "卸力+0.04;速度-0.02",
+    "category": "战法"
+  },
+  "323": {
+    "name": "戒备森严",
+    "description": "卸力+0.08;速度-0.04",
+    "category": "战法"
+  },
+  "324": {
+    "name": "严防死守",
+    "description": "卸力+0.12;速度-0.06",
+    "category": "战法"
+  },
+  "325": {
+    "name": "游斗",
+    "description": "速度+0.04;伤害-0.02",
+    "category": "战法"
+  },
+  "326": {
+    "name": "快步流星",
+    "description": "速度+0.08;伤害-0.04",
+    "category": "战法"
+  },
+  "327": {
+    "name": "千里奔袭",
+    "description": "速度+0.12;伤害-0.06",
+    "category": "战法"
+  },
+  "328": {
+    "name": "精力充沛",
+    "description": "经验获取+0.2;旅行速度+0.1",
+    "category": "特效"
+  },
+  "329": {
+    "name": "腊八粥",
+    "description": "回血0.01;回内0.01",
+    "category": "特效"
+  },
+  "330": {
+    "name": "微醺",
+    "description": "伤害抗性+0.05;命中-0.05",
+    "category": "特效"
+  },
+  "331": {
+    "name": "痛饮",
+    "description": "伤害抗性+0.1;命中-0.1",
+    "category": "特效"
+  },
+  "332": {
+    "name": "大醉",
+    "description": "伤害抗性+0.15;命中-0.15",
+    "category": "特效"
+  },
+  "333": {
+    "name": "酩酊",
+    "description": "伤害抗性+0.2;命中-0.2",
+    "category": "特效"
+  },
+  "334": {
+    "name": "宴会无趣",
+    "description": "恢复效率+0.02;负面抗性+0.02",
+    "category": "特效"
+  },
+  "335": {
+    "name": "宴会平平",
+    "description": "恢复效率+0.04;负面抗性+0.04",
+    "category": "特效"
+  },
+  "336": {
+    "name": "宴会满意",
+    "description": "恢复效率+0.06;负面抗性+0.06",
+    "category": "特效"
+  },
+  "337": {
+    "name": "宴会欢喜",
+    "description": "恢复效率+0.08;负面抗性+0.08",
+    "category": "特效"
+  },
+  "338": {
+    "name": "宴会极乐",
+    "description": "恢复效率+0.1;负面抗性+0.1",
+    "category": "特效"
+  },
+  "339": {
+    "name": "赌运",
+    "description": "暴击+0.05",
+    "category": "特效"
+  },
+  "340": {
+    "name": "霉运",
+    "description": "暴击-0.05",
+    "category": "特效"
+  },
+  "341": {
+    "name": "论胜",
+    "description": "理论经验+0.1;技艺经验+0.2",
+    "category": "特效"
+  },
+  "342": {
+    "name": "论败",
+    "description": "理论经验-0.1;技艺经验-0.2",
+    "category": "特效"
+  },
+  "343": {
+    "name": "轻症",
+    "description": "伤害-0.1;速度-0.1",
+    "category": "特效"
+  },
+  "344": {
+    "name": "中症",
+    "description": "伤害-0.2;速度-0.2",
+    "category": "特效"
+  },
+  "345": {
+    "name": "重症",
+    "description": "伤害-0.4;速度-0.4",
+    "category": "特效"
+  },
+  "346": {
+    "name": "危症",
+    "description": "伤害-0.8;速度-0.8",
+    "category": "特效"
+  },
+  "347": {
+    "name": "气息不调",
+    "description": "伤害-0.05;速度-0.05;经脉-10",
+    "category": "特效"
+  },
+  "348": {
+    "name": "内息紊乱",
+    "description": "伤害-0.1;速度-0.1;经脉-20",
+    "category": "特效"
+  },
+  "349": {
+    "name": "经脉受阻",
+    "description": "伤害-0.2;速度-0.2;经脉-40",
+    "category": "特效"
+  },
+  "350": {
+    "name": "经脉断绝",
+    "description": "伤害-0.4;速度-0.4;经脉-80",
+    "category": "特效"
+  },
+  "351": {
+    "name": "断臂",
+    "description": "伤害-0.4",
+    "category": "特效"
+  },
+  "352": {
+    "name": "跛足",
+    "description": "速度-0.4",
+    "category": "特效"
+  },
+  "353": {
+    "name": "目渺",
+    "description": "命中-0.4",
+    "category": "特效"
+  },
+  "354": {
+    "name": "理论心得",
+    "description": "实战经验+0.1",
+    "category": "特效"
+  },
+  "355": {
+    "name": "实战心得",
+    "description": "理论经验+0.1",
+    "category": "特效"
+  },
+  "356": {
+    "name": "机关木臂",
+    "description": "机关伤害+0.1",
+    "category": "武学"
+  },
+  "357": {
+    "name": "机关石臂",
+    "description": "机关伤害+0.2",
+    "category": "武学"
+  },
+  "358": {
+    "name": "机关铁臂",
+    "description": "机关伤害+0.3",
+    "category": "武学"
+  },
+  "359": {
+    "name": "机关木轮",
+    "description": "机关速度+0.1",
+    "category": "武学"
+  },
+  "360": {
+    "name": "机关石轮",
+    "description": "机关速度+0.2",
+    "category": "武学"
+  },
+  "361": {
+    "name": "机关铁轮",
+    "description": "机关速度+0.3",
+    "category": "武学"
+  },
+  "362": {
+    "name": "机关木甲",
+    "description": "机关耐久+0.1",
+    "category": "武学"
+  },
+  "363": {
+    "name": "机关石甲",
+    "description": "机关耐久+0.2",
+    "category": "武学"
+  },
+  "364": {
+    "name": "机关铁甲",
+    "description": "机关耐久+0.3",
+    "category": "武学"
+  },
+  "365": {
+    "name": "机关大师",
+    "description": "机关伤害+0.2;机关速度+0.2;机关耐久+0.2",
+    "category": "高级"
+  },
+  "366": {
+    "name": "鲁班在世",
+    "description": "机关伤害+0.4;机关速度+0.4;机关耐久+0.4",
+    "category": "高级"
+  },
+  "367": {
+    "name": "机关义手",
+    "description": "伤害-0.2;连击+0.05;暴击+0.05",
+    "category": "特效"
+  },
+  "368": {
+    "name": "手铐",
+    "description": "伤害-0.5",
+    "category": "特效"
+  },
+  "369": {
+    "name": "脚镣",
+    "description": "速度-0.5",
+    "category": "特效"
+  },
+  "370": {
+    "name": "机关义手",
+    "description": "伤害-0.15;连击+0.05;暴击+0.05",
+    "category": "特效"
+  },
+  "371": {
+    "name": "机关义手",
+    "description": "伤害-0.1;连击+0.05;暴击+0.05",
+    "category": "特效"
+  },
+  "372": {
+    "name": "机关义手",
+    "description": "伤害-0.05;连击+0.05;暴击+0.05",
+    "category": "特效"
+  },
+  "373": {
+    "name": "机关义手",
+    "description": "伤害-0.05;连击+0.1;暴击+0.1",
+    "category": "特效"
+  },
+  "374": {
+    "name": "登顶泰岳",
+    "description": "力道+2;灵巧+2;智力+2;意志+2;体质+2;经脉+2;内功+2;轻功+2;绝技+2;拳掌+2;剑法+2;刀法+2;长兵+2;奇门+2;射术+2",
+    "category": "特效"
+  },
+  "375": {
+    "name": "负心人",
+    "description": "好感获取-0.3",
+    "category": "特效"
+  },
+  "376": {
+    "name": "修行心得",
+    "description": "实战经验+0.2;理论经验+0.2;技艺经验+0.2",
+    "category": "特效"
+  },
+  "377": {
+    "name": "刮骨疗毒",
+    "description": "医术+10;毒术+5;自愈+3",
+    "category": "技艺"
+  },
+  "378": {
+    "name": "百毒不侵",
+    "description": "医术+20;毒术+10;自愈+6",
+    "category": "技艺"
+  },
+  "379": {
+    "name": "天下第一",
+    "description": "内功+5;轻功+5;绝技+5;拳掌+5;剑法+5;刀法+5;长兵+5;奇门+5;射术+5",
+    "category": "特效"
+  },
+  "380": {
+    "name": "归隐田园",
+    "description": "医术+10;毒术+10;学识+10;口才+10;采伐+10;木植+10;锻造+10;炼药+10;烹饪+10",
+    "category": "特效"
+  },
+  "381": {
+    "name": "豪商巨贾",
+    "description": "买卖优势+0.2",
+    "category": "特效"
+  },
+  "382": {
+    "name": "功成名就",
+    "description": "功绩获取+0.2",
+    "category": "特效"
+  },
+  "383": {
+    "name": "禁军统领",
+    "description": "经验获取+0.2",
+    "category": "特效"
+  },
+  "384": {
+    "name": "权势滔天",
+    "description": "声望获取+0.2",
+    "category": "特效"
+  },
+  "385": {
+    "name": "名门大派",
+    "description": "本门武学威力+0.2",
+    "category": "特效"
+  },
+  "386": {
+    "name": "武林盟主",
+    "description": "力道+5;灵巧+5;智力+5;意志+5;体质+5;经脉+5",
+    "category": "特效"
+  },
+  "387": {
+    "name": "终归一统",
+    "description": "力道+3;灵巧+3;智力+3;意志+3;体质+3;经脉+3;内功+3;轻功+3;绝技+3;拳掌+3;剑法+3;刀法+3;长兵+3;奇门+3;射术+3;医术+5;毒术+5;学识+5;口才+5;采伐+5;木植+5;锻造+5;炼药+5;烹饪+5",
+    "category": "特效"
+  },
+  "388": {
+    "name": "鸾凤和鸣",
+    "description": "好感获取+0.2",
+    "category": "特效"
+  },
+  "389": {
+    "name": "终生监禁",
+    "description": "恶名减少+0.1",
+    "category": "特效"
+  },
+  "390": {
+    "name": "背叛师门",
+    "description": "声望获取-0.3;好感获取-0.1",
+    "category": "特效"
+  }
+}

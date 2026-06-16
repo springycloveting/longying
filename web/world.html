@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙胤立志传 - 世界编辑器</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #17211d;
+            --muted: #6f7b75;
+            --line: rgba(255, 255, 255, 0.58);
+            --glass: rgba(255, 255, 255, 0.58);
+            --accent: #276c58;
+            --accent-deep: #1c5142;
+            --shadow: 0 20px 55px rgba(40, 66, 56, 0.11);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif;
+            position: relative;
+            overflow: hidden;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 15%, rgba(180, 218, 204, 0.72), transparent 32%),
+                radial-gradient(circle at 87% 12%, rgba(221, 209, 181, 0.58), transparent 28%),
+                radial-gradient(circle at 78% 88%, rgba(186, 210, 220, 0.54), transparent 30%),
+                linear-gradient(145deg, #edf3ef 0%, #e9efec 44%, #f1eee7 100%);
+            min-height: 100vh;
+        }
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        body::before {
+            width: 340px;
+            height: 340px;
+            left: -120px;
+            bottom: -140px;
+            background: rgba(87, 151, 128, 0.14);
+        }
+        body::after {
+            width: 280px;
+            height: 280px;
+            right: -100px;
+            top: 20%;
+            background: rgba(190, 151, 91, 0.12);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 28px);
+            margin: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: rgba(238, 244, 240, 0.38);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px) saturate(135%);
+            -webkit-backdrop-filter: blur(24px) saturate(135%);
+        }
+
+        .header {
+            min-height: 70px;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(38, 73, 61, 0.08);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 36px;
+            height: 36px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 12px;
+            color: #fff;
+            background: linear-gradient(145deg, #3c806b, #1e5746);
+            box-shadow: 0 9px 22px rgba(33, 91, 72, 0.24);
+            font-family: "STKaiti", "KaiTi", serif;
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 650;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-caption {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .nav-link {
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(39, 108, 88, 0.12);
+            color: var(--accent-deep);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn-primary {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(145deg, #347a65, #215b49);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(34, 92, 73, 0.18);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.58);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+        }
+
+        .btn-danger { background: #b85048; color: #fff; }
+
+        .btn-small { padding: 5px 12px; font-size: 12px; }
+
+        .slot-select {
+            padding: 8px 12px;
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.58);
+            font-size: 13px;
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        .status-badge.success { background: rgba(57, 129, 96, 0.15); color: #2a6e59; }
+
+        .tabs {
+            display: flex;
+            gap: 7px;
+            padding: 9px 24px;
+            border-bottom: 1px solid rgba(38, 73, 61, 0.07);
+            background: rgba(255, 255, 255, 0.28);
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 8px 14px;
+            border: 0;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover { color: var(--ink); background: rgba(255, 255, 255, 0.42); }
+
+        .tab.active {
+            color: var(--accent-deep);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: 0 5px 14px rgba(43, 71, 61, 0.08);
+        }
+
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px 24px 32px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(44, 70, 61, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px) saturate(125%);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .count {
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .attr-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .attr-item {
+            background: rgba(244, 248, 245, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .attr-item:hover {
+            border-color: rgba(39, 108, 88, 0.16);
+            background: rgba(255, 255, 255, 0.72);
+            transform: translateY(-1px);
+        }
+
+        .attr-name { color: var(--muted); font-size: 13px; font-weight: 500; }
+
+        .attr-value {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+        }
+
+        .attr-value input {
+            width: 70px;
+            padding: 4px 6px;
+            border: 1px solid rgba(42, 74, 63, 0.11);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.62);
+            color: var(--ink);
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .attr-value input:focus {
+            outline: none;
+            border-color: rgba(39, 108, 88, 0.48);
+            box-shadow: 0 0 0 3px rgba(39, 108, 88, 0.1);
+        }
+
+        .attr-value input[type="checkbox"] {
+            width: auto;
+        }
+
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 10px 16px;
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.58);
+            color: var(--ink);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            border-color: rgba(39, 108, 88, 0.22);
+            background: rgba(255, 255, 255, 0.82);
+            transform: translateY(-1px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid rgba(42, 74, 63, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(237, 243, 239, 0.66);
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(42, 74, 63, 0.08);
+        }
+
+        td {
+            border-bottom: 1px solid rgba(42, 74, 63, 0.06);
+            background: rgba(255, 255, 255, 0.38);
+            font-size: 13px;
+        }
+
+        tr:hover td { background: rgba(255, 255, 255, 0.7); }
+
+        .hero-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.16);
+            color: #dff4eb;
+        }
+
+        .badge-team { background: rgba(57, 129, 96, 0.15); color: #2a6e59; }
+
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            background: rgba(27, 55, 45, 0.9);
+            color: #fff;
+            box-shadow: 0 14px 34px rgba(22, 51, 40, 0.2);
+            backdrop-filter: blur(12px);
+            margin-top: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.error { background: rgba(184, 80, 72, 0.9); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(61, 89, 79, 0.24); border-radius: 3px; }
+
+        .resource-inputs {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+        }
+
+        .resource-inputs input {
+            width: 60px;
+            font-size: 12px;
+        }
+
+        .resource-label {
+            font-size: 10px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(22, 34, 29, 0.28);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: rgba(249, 251, 250, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 18px;
+            padding: 24px;
+            min-width: 500px;
+            max-width: 700px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 28px 80px rgba(20, 44, 35, 0.22);
+            backdrop-filter: blur(24px);
+        }
+
+        .modal h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .folder-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: background 0.2s;
+        }
+
+        .folder-item:hover { background: rgba(39, 108, 88, 0.1); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-left">
+                <div class="brand">
+                    <div class="brand-mark">世</div>
+                    <div>
+                        <div class="brand-name">世界编辑器</div>
+                        <div class="brand-caption">World Editor</div>
+                    </div>
+                </div>
+                <a href="/" class="nav-link">角色编辑器</a>
+                <a href="/world" class="nav-link active">世界编辑器</a>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="switchToHeroPage()">👤 切换到侠客页面</button>
+                <span id="statusBadge" class="status-badge">未加载</span>
+                <select id="slotSelect" class="slot-select">
+                    <option value="0">自动存档</option>
+                    <option value="1">存档 1</option>
+                    <option value="2">存档 2</option>
+                    <option value="3">存档 3</option>
+                    <option value="4">存档 4</option>
+                    <option value="5">存档 5</option>
+                    <option value="6">存档 6</option>
+                    <option value="7">存档 7</option>
+                    <option value="8">存档 8</option>
+                    <option value="9">存档 9</option>
+                    <option value="10">快速存档</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadSave()">📂 加载Save</button>
+                <button class="btn btn-secondary" onclick="saveSaveFile()">💾 保存</button>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview', this)">📊 总览</button>
+            <button class="tab" onclick="showTab('time', this)">🕐 时间设置</button>
+            <button class="tab" onclick="showTab('settings', this)">⚙️ 游戏设置</button>
+            <button class="tab" onclick="showTab('limits', this)">📋 月度限制</button>
+            <button class="tab" onclick="showTab('areas', this)">🗺️ 地区管理</button>
+            <button class="tab" onclick="showTab('forces', this)">🏛️ 门派管理</button>
+            <button class="tab" onclick="showTab('resources', this)">⛏️ 资源点</button>
+            <button class="tab" onclick="showTab('unlock', this)">🔓 解锁功能</button>
+            <button class="tab" onclick="showTab('stats', this)">📈 统计数据</button>
+        </div>
+
+        <div class="content-area" id="mainContent">
+            <div class="empty-state">
+                <h2>世界编辑器</h2>
+                <p style="margin-top: 12px;">选择存档槽 → 点击加载Save文件</p>
+                <p style="margin-top: 8px; color: #999;">修改世界时间、门派、地区、资源点等游戏环境数据</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle">标题</h3>
+            <div id="modalContent"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="modalConfirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const FORCE_MAP = {
+            0: '无', 1: '少林派', 2: '武当派', 3: '峨眉派', 4: '丐帮', 5: '华山派',
+            6: '衡山派', 7: '青城派', 8: '点苍派', 9: '昆仑派', 10: '崆峒派',
+            11: '天山派', 12: '雪山派', 13: '点星阁', 14: '五毒教', 15: '明教',
+            16: '日月神教', 17: '红花会', 18: '天地会', 19: '六扇门', 20: '锦衣卫',
+            21: '东厂', 22: '西厂', 23: '大理段氏', 24: '全真教', 25: '仙霞派',
+            26: '茅山派', 27: '桃花岛', 28: '逍遥派', 29: '灵鹫宫'
+        };
+
+        const RESOURCE_NAMES = ['粮食', '木材', '石材', '铁矿', '布匹', '药材'];
+
+        async function api(endpoint, options = {}) {
+            const res = await fetch(endpoint, {
+                headers: { 'Content-Type': 'application/json' },
+                ...options
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || '请求失败');
+            return data;
+        }
+
+        function toast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const div = document.createElement('div');
+            div.className = `toast ${type === 'error' ? 'error' : ''}`;
+            div.textContent = message;
+            container.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        function switchToHeroPage() {
+            const slotId = document.getElementById('slotSelect').value;
+            localStorage.setItem('longying_slot', slotId);
+            window.location.href = '/';
+        }
+
+        function loadSavedSlot() {
+            const savedSlot = localStorage.getItem('longying_slot');
+            if (savedSlot) {
+                document.getElementById('slotSelect').value = savedSlot;
+            }
+        }
+
+        async function loadSave() {
+            const slotId = document.getElementById('slotSelect').value;
+            localStorage.setItem('longying_slot', slotId);
+            try {
+                await api('/api/save/load', { method: 'POST', body: JSON.stringify({ slot: parseInt(slotId) }) });
+                const status = await api('/api/save/status');
+                document.getElementById('statusBadge').textContent = `已加载`;
+                document.getElementById('statusBadge').className = 'status-badge success';
+                toast(`加载成功`);
+                showTab('overview');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function saveSaveFile() {
+            try {
+                const data = await api('/api/save/save', { method: 'POST' });
+                toast(`保存成功！备份: ${data.backup}`);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        function showTab(tab, btn) {
+            if (btn) {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            const loaders = {
+                'overview': loadOverview,
+                'time': loadTime,
+                'settings': loadSettings,
+                'limits': loadLimits,
+                'areas': loadAreas,
+                'forces': loadForces,
+                'resources': loadResources,
+                'unlock': loadUnlock,
+                'stats': loadStats
+            };
+
+            if (loaders[tab]) loaders[tab]();
+        }
+
+        async function loadOverview() {
+            try {
+                const status = await api('/api/save/status');
+                const stats = await api('/api/save/statistics');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">世界信息</div>
+                        <div class="attr-grid">
+                            <div class="attr-item"><span class="attr-name">章节</span><span class="attr-value">${status.chapter}</span></div>
+                            <div class="attr-item"><span class="attr-name">时间</span><span class="attr-value">${status.worldTime.year}年${status.worldTime.month}月${status.worldTime.day}日</span></div>
+                            <div class="attr-item"><span class="attr-name">时辰</span><span class="attr-value">${Math.floor(status.hour)}时</span></div>
+                            <div class="attr-item"><span class="attr-name">游戏难度</span><span class="attr-value">${status.gameDifficulty}</span></div>
+                            <div class="attr-item"><span class="attr-name">休闲模式</span><span class="attr-value">${status.relaxMode ? '是' : '否'}</span></div>
+                            <div class="attr-item"><span class="attr-name">作弊中</span><span class="attr-value">${status.cheating ? '是' : '否'}</span></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">世界规模</div>
+                        <div class="attr-grid">
+                            <div class="attr-item"><span class="attr-name">地区数量</span><span class="attr-value">${status.areasCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">门派数量</span><span class="attr-value">${status.forcesCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">资源点数量</span><span class="attr-value">${status.resourcePointsCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">客栈数量</span><span class="attr-value">${status.innsCount}</span></div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">游戏统计</div>
+                        <div class="attr-grid">
+                            <div class="attr-item"><span class="attr-name">总战斗次数</span><span class="attr-value">${stats.totalFightCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">胜利次数</span><span class="attr-value">${stats.totalWinFightCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">击杀敌人</span><span class="attr-value">${stats.totalEnemyKilled}</span></div>
+                            <div class="attr-item"><span class="attr-name">相遇角色</span><span class="attr-value">${stats.totalHeroMeet}</span></div>
+                            <div class="attr-item"><span class="attr-name">完成任务</span><span class="attr-value">${stats.finishForceMissionCount}</span></div>
+                            <div class="attr-item"><span class="attr-name">总恶名</span><span class="attr-value">${Math.floor(stats.totalBadFame)}</span></div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadTime() {
+            try {
+                const time = await api('/api/save/world_time');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">世界时间</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">年份</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${time.year}" min="1" onchange="updateTime('year', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">月份</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${time.month}" min="1" max="12" onchange="updateTime('month', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">日期</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${time.day}" min="1" max="30" onchange="updateTime('day', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">快捷操作</div>
+                        <div class="quick-actions">
+                            <button class="quick-btn" onclick="addDays(1)">➕ 加1天</button>
+                            <button class="quick-btn" onclick="addDays(7)">➕ 加7天</button>
+                            <button class="quick-btn" onclick="addDays(30)">➕ 加1月</button>
+                            <button class="quick-btn" onclick="addDays(-1)">➖ 减1天</button>
+                            <button class="quick-btn" onclick="setDay(1)">📅 月初</button>
+                            <button class="quick-btn" onclick="setDay(15)">📅 月中</button>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateTime(field, value) {
+            try {
+                await api('/api/save/world_time', { method: 'PUT', body: JSON.stringify({ [field]: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function addDays(days) {
+            try {
+                const time = await api('/api/save/world_time');
+                let { year, month, day } = time;
+                day += days;
+                while (day > 30) { day -= 30; month++; }
+                while (day < 1) { day += 30; month--; }
+                while (month > 12) { month -= 12; year++; }
+                while (month < 1) { month += 12; year--; }
+                await api('/api/save/world_time', { method: 'PUT', body: JSON.stringify({ year, month, day }) });
+                loadTime();
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function setDay(day) {
+            try {
+                await api('/api/save/world_time', { method: 'PUT', body: JSON.stringify({ day }) });
+                loadTime();
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadSettings() {
+            try {
+                const settings = await api('/api/save/game_settings');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">游戏设置</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">章节</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${settings.chapter}" min="1" onchange="updateSettings('chapter', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">游戏模式</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${settings.gameMode}" onchange="updateSettings('gameMode', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">游戏难度</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${settings.gameDifficulty}" min="1" max="5" onchange="updateSettings('gameDifficulty', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">时辰</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${Math.floor(settings.hour)}" step="1" onchange="updateSettings('hour', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">时间难度</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${settings.TimeDifficulty}" step="0.1" onchange="updateSettings('TimeDifficulty', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">战斗时间缩放</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${settings.battleTimeScale}" step="0.1" onchange="updateSettings('battleTimeScale', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">模式开关</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">休闲模式</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${settings.relaxMode ? 'checked' : ''} onchange="updateSettings('relaxMode', this.checked)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">作弊中</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${settings.cheating ? 'checked' : ''} onchange="updateSettings('cheating', this.checked)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateSettings(field, value) {
+            try {
+                const body = { [field]: value === 'true' ? true : value === 'false' ? false : value };
+                await api('/api/save/game_settings', { method: 'PUT', body: JSON.stringify(body) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadLimits() {
+            try {
+                const limits = await api('/api/save/month_limits');
+                
+                const limitNames = {
+                    'monthCatchBadFamePlayerTime': '通缉恶名玩家',
+                    'monthGambleTime': '赌博',
+                    'monthPartyTime': '宴会',
+                    'monthForcePartyTime': '门派宴会',
+                    'monthDoctorTime': '看病',
+                    'monthPerformForMoneyTime': '卖艺',
+                    'monthCoachTime': '指点',
+                    'monthAttackMartialClubTime': '攻击武馆',
+                    'monthChallengeTime': '挑战',
+                    'monthBuyAreaInfoTime': '购买区域信息',
+                    'monthGiveMoneyToGovernTime': '给官府钱',
+                    'monthKillTime': '击杀',
+                    'monthFreshBountyTime': '刷新悬赏',
+                    'monthFreshAuctionTime': '刷新拍卖'
+                };
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">月度次数限制</div>
+                        <div class="quick-actions" style="margin-bottom: 16px;">
+                            <button class="quick-btn" onclick="resetMonthLimits()">🔄 重置所有月度限制</button>
+                        </div>
+                        <div class="attr-grid">
+                            ${Object.entries(limitNames).map(([field, name]) => `
+                                <div class="attr-item">
+                                    <span class="attr-name">${name}</span>
+                                    <div class="attr-value">
+                                        <input type="number" value="${limits[field]}" min="0" onchange="updateLimit('${field}', this.value)">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateLimit(field, value) {
+            try {
+                await api('/api/save/month_limits', { method: 'PUT', body: JSON.stringify({ [field]: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function resetMonthLimits() {
+            try {
+                await api('/api/save/reset_month_limits', { method: 'POST' });
+                loadLimits();
+                toast('已重置所有月度限制');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadAreas() {
+            try {
+                const areas = await api('/api/save/areas');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">地区列表 <span class="count">${areas.length} 个</span></div>
+                        <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>地区名称</th>
+                                        <th>类型</th>
+                                        <th>所属门派</th>
+                                        <th>人口</th>
+                                        <th>安全</th>
+                                        <th>支持</th>
+                                        <th>防御</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${areas.map(a => `
+                                        <tr>
+                                            <td><strong style="cursor:pointer;color:var(--accent);" onclick="showAreaDetail(${a.areaID})">${a.areaName}</strong></td>
+                                            <td>${['城市', '村庄', '门派'][a.areaType] || '未知'}</td>
+                                            <td>${a.forceName}</td>
+                                            <td>${Math.floor(a.people)} / ${Math.floor(a.maxPeople)}</td>
+                                            <td>${Math.floor(a.safe)}</td>
+                                            <td>${Math.floor(a.support)}</td>
+                                            <td>${Math.floor(a.defence)}</td>
+                                            <td><button class="btn btn-small btn-secondary" onclick="showAreaDetail(${a.areaID})">编辑</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function showAreaDetail(areaId) {
+            try {
+                const area = await api(`/api/save/area/${areaId}`);
+                const buildings = area.buildings || [];
+                
+                const buildingNames = {
+                    0: '正厅', 1: '厢房', 2: '茶室', 3: '正门', 4: '偏门',
+                    5: '厢房', 6: '偏门', 7: '茶室', 8: '厢房', 9: '厢房',
+                    10: '练功房', 11: '演武场', 12: '厢房', 13: '厢房', 14: '厢房',
+                    30: '民居', 31: '民居', 32: '仓库', 33: '商铺', 34: '商铺',
+                    35: '工棚', 36: '作坊', 37: '酒楼', 38: '客栈', 39: '医馆',
+                    40: '铁匠铺', 41: '镖局', '-1': '装饰'
+                };
+                
+                document.getElementById('modalTitle').textContent = `地区详情 - ${area.areaName}`;
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="attr-grid" style="margin-bottom: 12px;">
+                        <div class="attr-item">
+                            <span class="attr-name">地区ID</span>
+                            <span class="attr-value">${area.areaID}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">类型</span>
+                            <span class="attr-value">${['城市', '村庄', '门派'][area.areaType] || '未知'}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">等级</span>
+                            <span class="attr-value">${area.areaStartLv}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">所属门派</span>
+                            <div class="attr-value">
+                                <select onchange="updateArea(${areaId}, 'belongForceID', this.value)" style="padding: 4px; border-radius: 6px; border: 1px solid rgba(42,74,63,0.11);">
+                                    ${Object.entries(FORCE_MAP).map(([id, name]) => 
+                                        `<option value="${id}" ${area.belongForceID == id ? 'selected' : ''}>${name}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="attr-grid" style="margin-bottom: 12px;">
+                        <div class="attr-item">
+                            <span class="attr-name">人口</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(area.people)}" onchange="updateArea(${areaId}, 'people', this.value)">
+                                <span style="margin: 0 4px;">/</span>
+                                <input type="number" value="${Math.floor(area.maxPeople)}" onchange="updateArea(${areaId}, 'maxPeople', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">安全值</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(area.safe)}" onchange="updateArea(${areaId}, 'safe', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">支持度</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(area.support)}" onchange="updateArea(${areaId}, 'support', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">防御值</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(area.defence)}" onchange="updateArea(${areaId}, 'defence', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">资源产出</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            ${RESOURCE_NAMES.map((name, i) => `
+                                <div style="text-align: center;">
+                                    <input type="number" value="${Math.floor(area.changeResource[i] || 0)}" style="width: 60px;" 
+                                           onchange="updateAreaResource(${areaId}, ${i}, this.value)">
+                                    <div class="resource-label">${name}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <span style="font-size: 13px; color: var(--muted);">建筑列表 (${buildings.length}个)</span>
+                            <div style="display: flex; gap: 6px;">
+                                <button class="btn btn-small btn-secondary" onclick="showBuildingsManager(${areaId}, ${JSON.stringify(buildings).replace(/"/g, '&quot;')})">🏗️ 管理建筑</button>
+                                <button class="btn btn-small btn-primary" onclick="batchUpgradeBuildings(${areaId}, 5)">⬆️ 全部升至5级</button>
+                                <button class="btn btn-small btn-primary" onclick="batchUpgradeBuildings(${areaId}, 10)">⬆️ 全部升至10级</button>
+                            </div>
+                        </div>
+                        <div style="max-height: 150px; overflow-y: auto; font-size: 12px; background: rgba(244,248,245,0.64); border-radius: 8px; padding: 8px;">
+                            ${buildings.length > 0 ? 
+                                buildings.slice(0, 20).map(b => `
+                                    <span style="display: inline-block; margin: 2px 4px; padding: 2px 6px; background: rgba(255,255,255,0.7); border-radius: 4px;">
+                                        ${buildingNames[b.buildingID] || '建筑'+b.buildingID} Lv.${b.lv}
+                                    </span>
+                                `).join('') + (buildings.length > 20 ? `<span style="color: var(--muted);">...等${buildings.length}个建筑</span>` : '')
+                                : '<span style="color: var(--muted);">无建筑</span>'
+                            }
+                        </div>
+                    </div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">区域内角色</span>
+                            <span class="attr-value">${area.insideHerosCount}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">特产</span>
+                            <span class="attr-value">${area.speProduct.join(', ') || '无'}</span>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('modalConfirm').textContent = '关闭';
+                document.getElementById('modalConfirm').onclick = closeModal;
+                document.getElementById('modalOverlay').classList.add('active');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function showBuildingsManager(areaId, buildings) {
+            const buildingNames = {
+                0: '正厅', 1: '厢房', 2: '茶室', 3: '正门', 4: '偏门',
+                5: '厢房', 6: '偏门', 7: '茶室', 8: '厢房', 9: '厢房',
+                10: '练功房', 11: '演武场', 12: '厢房', 13: '厢房', 14: '厢房',
+                30: '民居', 31: '民居', 32: '仓库', 33: '商铺', 34: '商铺',
+                35: '工棚', 36: '作坊', 37: '酒楼', 38: '客栈', 39: '医馆',
+                40: '铁匠铺', 41: '镖局', '-1': '装饰'
+            };
+            
+            document.getElementById('modalTitle').textContent = `建筑管理`;
+            document.getElementById('modalContent').innerHTML = `
+                <div style="margin-bottom: 12px;">
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="batchUpgradeBuildings(${areaId}, 1)">全部1级</button>
+                        <button class="quick-btn" onclick="batchUpgradeBuildings(${areaId}, 3)">全部3级</button>
+                        <button class="quick-btn" onclick="batchUpgradeBuildings(${areaId}, 5)">全部5级</button>
+                        <button class="quick-btn" onclick="batchUpgradeBuildings(${areaId}, 8)">全部8级</button>
+                        <button class="quick-btn" onclick="batchUpgradeBuildings(${areaId}, 10)">全部10级</button>
+                    </div>
+                </div>
+                <div style="max-height: 400px; overflow-y: auto;">
+                    <table style="font-size: 12px;">
+                        <thead>
+                            <tr>
+                                <th>建筑类型</th>
+                                <th>位置</th>
+                                <th>等级</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${buildings.map(b => `
+                                <tr>
+                                    <td>${buildingNames[b.buildingID] || '建筑'+b.buildingID}</td>
+                                    <td>(${b.row},${b.column})</td>
+                                    <td>
+                                        <input type="number" value="${b.lv}" min="0" max="10" style="width: 50px;"
+                                               onchange="updateBuilding(${areaId}, ${b.tileIndex}, this.value)">
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-small btn-secondary" onclick="updateBuilding(${areaId}, ${b.tileIndex}, 10)">满级</button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '返回';
+            document.getElementById('modalConfirm').onclick = () => showAreaDetail(areaId);
+        }
+
+        async function updateBuilding(areaId, tileIndex, lv) {
+            try {
+                await api(`/api/save/area/${areaId}/building/${tileIndex}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ lv: parseInt(lv) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function batchUpgradeBuildings(areaId, targetLv) {
+            try {
+                const result = await api(`/api/save/area/${areaId}/buildings/batch`, {
+                    method: 'POST',
+                    body: JSON.stringify({ lv: targetLv })
+                });
+                toast(`已将${result.count}个建筑升至${targetLv}级`);
+                showAreaDetail(areaId);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateArea(areaId, field, value) {
+            try {
+                await api(`/api/save/area/${areaId}`, { method: 'PUT', body: JSON.stringify({ [field]: parseFloat(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateAreaResource(areaId, index, value) {
+            try {
+                const area = await api(`/api/save/area/${areaId}`);
+                const resources = area.changeResource || [0, 0, 0, 0, 0, 0];
+                resources[index] = parseFloat(value);
+                await api(`/api/save/area/${areaId}`, { method: 'PUT', body: JSON.stringify({ changeResource: resources }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadForces() {
+            try {
+                const forces = await api('/api/save/forces');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">门派列表 <span class="count">${forces.length} 个</span></div>
+                        <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>门派名称</th>
+                                        <th>风格</th>
+                                        <th>等级</th>
+                                        <th>人口</th>
+                                        <th>区域</th>
+                                        <th>成员</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${forces.map(f => `
+                                        <tr>
+                                            <td><strong style="cursor:pointer;color:var(--accent);" onclick="showForceDetail(${f.forceID})">${f.forceName}</strong></td>
+                                            <td>${f.forceStyle}</td>
+                                            <td>${f.forceLv}</td>
+                                            <td>${f.totalPopulation}</td>
+                                            <td>${f.ownAreasCount}</td>
+                                            <td>${f.ownHerosCount}</td>
+                                            <td><button class="btn btn-small btn-secondary" onclick="showForceDetail(${f.forceID})">编辑</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function showForceDetail(forceId) {
+            try {
+                const force = await api(`/api/save/force/${forceId}`);
+                
+                document.getElementById('modalTitle').textContent = `门派详情 - ${force.forceName}`;
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="attr-grid" style="margin-bottom: 12px;">
+                        <div class="attr-item">
+                            <span class="attr-name">门派ID</span>
+                            <span class="attr-value">${force.forceID}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">等级</span>
+                            <div class="attr-value">
+                                <input type="number" value="${force.forceLv}" min="1" onchange="updateForce(${force.forceID}, 'forceLv', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">风格</span>
+                            <span class="attr-value">${force.forceStyle}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">人口</span>
+                            <div class="attr-value">
+                                <input type="number" value="${force.totalPopulation}" onchange="updateForce(${force.forceID}, 'totalPopulation', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">薪水</span>
+                            <div class="attr-value">
+                                <input type="number" value="${force.totalSalary}" onchange="updateForce(${force.forceID}, 'totalSalary', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">掌门ID</span>
+                            <div class="attr-value">
+                                <input type="number" value="${force.leader}" onchange="updateForce(${force.forceID}, 'leader', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">资源存储</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            ${RESOURCE_NAMES.map((name, i) => `
+                                <div style="text-align: center;">
+                                    <input type="number" value="${Math.floor(force.resourceStore[i] || 0)}" style="width: 70px;" 
+                                           onchange="updateForceResource(${force.forceID}, ${i}, this.value)">
+                                    <div class="resource-label">${name}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">拥有区域</span>
+                            <span class="attr-value">${force.ownAreasID.length} 个</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">拥有成员</span>
+                            <span class="attr-value">${force.ownHeros.length} 人</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">同盟</span>
+                            <span class="attr-value">${force.allyForce.length} 个</span>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('modalConfirm').textContent = '关闭';
+                document.getElementById('modalConfirm').onclick = closeModal;
+                document.getElementById('modalOverlay').classList.add('active');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateForce(forceId, field, value) {
+            try {
+                await api(`/api/save/force/${forceId}`, { method: 'PUT', body: JSON.stringify({ [field]: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateForceResource(forceId, index, value) {
+            try {
+                const force = await api(`/api/save/force/${forceId}`);
+                const resources = force.resourceStore || [0, 0, 0, 0, 0, 0];
+                resources[index] = parseFloat(value);
+                await api(`/api/save/force/${forceId}`, { method: 'PUT', body: JSON.stringify({ resourceStore: resources }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadResources() {
+            try {
+                const rps = await api('/api/save/resource_points');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">资源点列表 <span class="count">${rps.length} 个</span></div>
+                        <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>资源点名称</th>
+                                        <th>所属门派</th>
+                                        <th>粮食</th>
+                                        <th>木材</th>
+                                        <th>石材</th>
+                                        <th>铁矿</th>
+                                        <th>布匹</th>
+                                        <th>药材</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${rps.map(rp => `
+                                        <tr>
+                                            <td><strong>${rp.resourcePointName}</strong></td>
+                                            <td>${rp.forceName}</td>
+                                            ${(rp.changeResource || []).map(v => `<td>${Math.floor(v || 0)}</td>`).join('')}
+                                            <td><button class="btn btn-small btn-secondary" onclick="showResourcePointDetail(${rp.resourcePointID})">编辑</button></td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function showResourcePointDetail(rpId) {
+            try {
+                const rp = await api(`/api/save/resource_point/${rpId}`);
+                
+                document.getElementById('modalTitle').textContent = `资源点 - ${rp.resourcePointName}`;
+                document.getElementById('modalContent').innerHTML = `
+                    <div class="attr-grid" style="margin-bottom: 12px;">
+                        <div class="attr-item">
+                            <span class="attr-name">ID</span>
+                            <span class="attr-value">${rp.resourcePointID}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">全名</span>
+                            <span class="attr-value">${rp.resourcePointFullName}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">所属门派</span>
+                            <div class="attr-value">
+                                <select onchange="updateResourcePoint(${rp.resourcePointID}, 'belongForceID', this.value)" style="padding: 4px; border-radius: 6px; border: 1px solid rgba(42,74,63,0.11);">
+                                    ${Object.entries(FORCE_MAP).map(([id, name]) => 
+                                        `<option value="${id}" ${rp.belongForceID == id ? 'selected' : ''}>${name}</option>`
+                                    ).join('')}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <div style="font-size: 13px; color: var(--muted); margin-bottom: 6px;">资源产出</div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            ${RESOURCE_NAMES.map((name, i) => `
+                                <div style="text-align: center;">
+                                    <input type="number" value="${Math.floor(rp.changeResource[i] || 0)}" style="width: 60px;" 
+                                           onchange="updateResourcePointResource(${rp.resourcePointID}, ${i}, this.value)">
+                                    <div class="resource-label">${name}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+                document.getElementById('modalConfirm').textContent = '关闭';
+                document.getElementById('modalConfirm').onclick = closeModal;
+                document.getElementById('modalOverlay').classList.add('active');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateResourcePoint(rpId, field, value) {
+            try {
+                await api(`/api/save/resource_point/${rpId}`, { method: 'PUT', body: JSON.stringify({ [field]: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateResourcePointResource(rpId, index, value) {
+            try {
+                const rp = await api(`/api/save/resource_point/${rpId}`);
+                const resources = rp.changeResource || [0, 0, 0, 0, 0, 0];
+                resources[index] = parseFloat(value);
+                await api(`/api/save/resource_point/${rpId}`, { method: 'PUT', body: JSON.stringify({ changeResource: resources }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadUnlock() {
+            try {
+                const flags = await api('/api/save/unlock_flags');
+                const prison = await api('/api/save/prison');
+                const gs = await api('/api/save/govern_storage');
+                const stone = await api('/api/save/spe_enhance_stone');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">功能解锁</div>
+                        <div class="quick-actions" style="margin-bottom: 16px;">
+                            <button class="quick-btn" onclick="unlockAll()">🔓 解锁所有功能</button>
+                        </div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">离开门派</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${flags.openLeaveForce ? 'checked' : ''} onchange="updateUnlock('openLeaveForce', this.checked)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">门派建筑</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${flags.openForceBuilding ? 'checked' : ''} onchange="updateUnlock('openForceBuilding', this.checked)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">攻击资源点</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${flags.openForceAttackResource ? 'checked' : ''} onchange="updateUnlock('openForceAttackResource', this.checked)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">攻击区域</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${flags.openForceAttackArea ? 'checked' : ''} onchange="updateUnlock('openForceAttackArea', this.checked)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">攻击基地</span>
+                                <div class="attr-value">
+                                    <input type="checkbox" ${flags.openForceAttackBasement ? 'checked' : ''} onchange="updateUnlock('openForceAttackBasement', this.checked)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">监狱状态</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">守卫警惕</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${prison.guardAlert}" step="0.1" onchange="updatePrison('guardAlert', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">守卫好感</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${prison.guardFavor}" step="0.1" onchange="updatePrison('guardFavor', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">收买冷却</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${prison.buyGuardCd}" step="0.1" onchange="updatePrison('buyGuardCd', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">其他</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">官府金钱</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${gs.money}" onchange="updateGovernStorage('money', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">强化石</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stone.speEnhanceStone}" onchange="updateSpeEnhanceStone(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateUnlock(field, value) {
+            try {
+                await api('/api/save/unlock_flags', { method: 'PUT', body: JSON.stringify({ [field]: value }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function unlockAll() {
+            try {
+                await api('/api/save/unlock_all', { method: 'POST' });
+                loadUnlock();
+                toast('已解锁所有功能');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updatePrison(field, value) {
+            try {
+                await api('/api/save/prison', { method: 'PUT', body: JSON.stringify({ [field]: parseFloat(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateGovernStorage(field, value) {
+            try {
+                await api('/api/save/govern_storage', { method: 'PUT', body: JSON.stringify({ [field]: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateSpeEnhanceStone(value) {
+            try {
+                await api('/api/save/spe_enhance_stone', { method: 'PUT', body: JSON.stringify({ speEnhanceStone: parseInt(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const stats = await api('/api/save/statistics');
+                
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="section">
+                        <div class="section-title">游戏统计</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">总战斗次数</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.totalFightCount}" onchange="updateStats('totalFightCount', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">胜利次数</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.totalWinFightCount}" onchange="updateStats('totalWinFightCount', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">击杀敌人</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.totalEnemyKilled}" onchange="updateStats('totalEnemyKilled', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">总恶名</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${Math.floor(stats.totalBadFame)}" step="1" onchange="updateStats('totalBadFame', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">相遇角色</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.totalHeroMeet}" onchange="updateStats('totalHeroMeet', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">完成任务</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.finishForceMissionCount}" onchange="updateStats('finishForceMissionCount', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">切换单挑胜利</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.studyFightWithGreatHeroSingleWinNum}" onchange="updateStats('studyFightWithGreatHeroSingleWinNum', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">切换群战胜利</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.studyFightWithGreatHeroMultiWinNum}" onchange="updateStats('studyFightWithGreatHeroMultiWinNum', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">切磋最终胜利</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${stats.studyFightWithGreatHeroFinalWinNum}" onchange="updateStats('studyFightWithGreatHeroFinalWinNum', this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateStats(field, value) {
+            try {
+                await api('/api/save/statistics', { method: 'PUT', body: JSON.stringify({ [field]: parseFloat(value) }) });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadSavedSlot();
+        });
+    </script>
+</body>
+</html>
