@@ -930,6 +930,85 @@ def api_save_force_update(force_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+@app.route('/api/save/force/<int:force_id>/favor')
+def api_save_force_favor(force_id):
+    """获取门派与其他门派的好感度"""
+    if save_data is None:
+        return jsonify({'error': 'Save存档未加载'}), 400
+    
+    forces = save_data.get('Forces', [])
+    force = None
+    for f in forces:
+        if f.get('forceID') == force_id:
+            force = f
+            break
+    if force is None:
+        return jsonify({'error': '门派未找到'}), 404
+    
+    favor_dict = force.get('forceFavorDict', {})
+    result = []
+    for other_id_str, favor in favor_dict.items():
+        other_id = int(other_id_str)
+        other_force = None
+        for f in forces:
+            if f and f.get('forceID') == other_id:
+                other_force = f
+                break
+        result.append({
+            'forceID': other_id,
+            'forceName': other_force.get('forceName', FORCE_MAP.get(other_id, f'ID:{other_id}')) if other_force else FORCE_MAP.get(other_id, f'ID:{other_id}'),
+            'favor': favor,
+        })
+    
+    return jsonify({
+        'forceID': force_id,
+        'forceName': force.get('forceName', '未知'),
+        'favors': result,
+    })
+
+@app.route('/api/save/force/<int:force_id>/favor', methods=['PUT'])
+def api_save_force_favor_update(force_id):
+    """更新门派与其他门派的好感度（双向同步）"""
+    if save_data is None:
+        return jsonify({'error': 'Save存档未加载'}), 400
+    
+    forces = save_data.get('Forces', [])
+    force = None
+    for f in forces:
+        if f.get('forceID') == force_id:
+            force = f
+            break
+    if force is None:
+        return jsonify({'error': '门派未找到'}), 404
+    
+    try:
+        req = request.get_json()
+        target_force_id = req.get('targetForceID')
+        favor = req.get('favor')
+        
+        if target_force_id is None or favor is None:
+            return jsonify({'error': '缺少参数'}), 400
+        
+        if 'forceFavorDict' not in force:
+            force['forceFavorDict'] = {}
+        
+        force['forceFavorDict'][str(target_force_id)] = float(favor)
+        
+        target_force = None
+        for f in forces:
+            if f and f.get('forceID') == target_force_id:
+                target_force = f
+                break
+        
+        if target_force:
+            if 'forceFavorDict' not in target_force:
+                target_force['forceFavorDict'] = {}
+            target_force['forceFavorDict'][str(force_id)] = float(favor)
+        
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
 @app.route('/api/save/resource_points')
 def api_save_resource_points():
     if save_data is None:

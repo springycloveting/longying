@@ -801,5 +801,103 @@ class TestItemCreateAPI(unittest.TestCase):
         self.assertEqual(response.status_code, 404)
 
 
+class TestForceFavorAPI(unittest.TestCase):
+    """测试门派好感度API"""
+
+    def setUp(self):
+        from web_server import app
+        import web_server
+        self.app = app
+        self.client = app.test_client()
+        app.testing = True
+        web_server.save_data = {
+            'Forces': [
+                {
+                    'forceID': 1,
+                    'forceName': '少林派',
+                    'forceFavorDict': {'2': 50.0, '3': 60.0}
+                },
+                {
+                    'forceID': 2,
+                    'forceName': '武当派',
+                    'forceFavorDict': {'1': 55.0}
+                },
+                {
+                    'forceID': 3,
+                    'forceName': '峨眉派',
+                    'forceFavorDict': {}
+                },
+            ]
+        }
+
+    def test_api_force_favor_get_success(self):
+        """测试获取门派好感度"""
+        response = self.client.get('/api/save/force/1/favor')
+        self.assertEqual(response.status_code, 200)
+        data = response.get_json()
+        self.assertEqual(data['forceID'], 1)
+        self.assertEqual(data['forceName'], '少林派')
+        self.assertEqual(len(data['favors']), 2)
+
+    def test_api_force_favor_get_returns_favor_values(self):
+        """测试获取门派好感度返回正确值"""
+        response = self.client.get('/api/save/force/1/favor')
+        data = response.get_json()
+        favors = {f['forceID']: f['favor'] for f in data['favors']}
+        self.assertEqual(favors[2], 50.0)
+        self.assertEqual(favors[3], 60.0)
+
+    def test_api_force_favor_get_not_found(self):
+        """测试获取不存在的门派好感度"""
+        response = self.client.get('/api/save/force/999/favor')
+        self.assertEqual(response.status_code, 404)
+
+    def test_api_force_favor_update_success(self):
+        """测试更新门派好感度"""
+        import web_server
+        response = self.client.put('/api/save/force/1/favor',
+                              json={'targetForceID': 2, 'favor': 80.0},
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(web_server.save_data['Forces'][0]['forceFavorDict']['2'], 80.0)
+
+    def test_api_force_favor_update_add_new(self):
+        """测试添加新的门派好感度"""
+        import web_server
+        response = self.client.put('/api/save/force/1/favor',
+                              json={'targetForceID': 4, 'favor': 40.0},
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('4', web_server.save_data['Forces'][0]['forceFavorDict'])
+        self.assertEqual(web_server.save_data['Forces'][0]['forceFavorDict']['4'], 40.0)
+
+    def test_api_force_favor_update_missing_params(self):
+        """测试更新门派好感度缺少参数"""
+        response = self.client.put('/api/save/force/1/favor',
+                              json={'favor': 80.0},
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+
+    def test_api_force_favor_update_bidirectional(self):
+        """测试更新门派好感度双向同步"""
+        import web_server
+        response = self.client.put('/api/save/force/1/favor',
+                              json={'targetForceID': 2, 'favor': 90.0},
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(web_server.save_data['Forces'][0]['forceFavorDict']['2'], 90.0)
+        self.assertEqual(web_server.save_data['Forces'][1]['forceFavorDict']['1'], 90.0)
+
+    def test_api_force_favor_update_bidirectional_new(self):
+        """测试更新门派好感度双向同步（目标门派原本无记录）"""
+        import web_server
+        response = self.client.put('/api/save/force/1/favor',
+                              json={'targetForceID': 3, 'favor': 70.0},
+                              content_type='application/json')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(web_server.save_data['Forces'][0]['forceFavorDict']['3'], 70.0)
+        self.assertEqual(web_server.save_data['Forces'][2]['forceFavorDict']['1'], 70.0)
+
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

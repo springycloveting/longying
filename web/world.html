@@ -1278,6 +1278,9 @@
                             <span class="attr-value">${force.allyForce.length} 个</span>
                         </div>
                     </div>
+                    <div style="margin-top: 12px;">
+                        <button class="btn btn-primary" onclick="showForceFavorModal(${force.forceID})">查看门派好感度</button>
+                    </div>
                 `;
                 document.getElementById('modalConfirm').textContent = '关闭';
                 document.getElementById('modalConfirm').onclick = closeModal;
@@ -1306,6 +1309,81 @@
             } catch (e) {
                 toast(e.message, 'error');
             }
+        }
+
+        async function showForceFavorModal(forceId) {
+            try {
+                const data = await api(`/api/save/force/${forceId}/favor`);
+                
+                const getFavorStyle = (favor) => {
+                    if (favor >= 80) return { text: '同盟', color: '#4caf50', bg: 'rgba(76,175,80,0.15)' };
+                    if (favor >= 60) return { text: '友善', color: '#8bc34a', bg: 'rgba(139,195,74,0.15)' };
+                    if (favor >= 40) return { text: '中立', color: '#9e9e9e', bg: 'rgba(158,158,158,0.15)' };
+                    if (favor >= 20) return { text: '冷淡', color: '#ff9800', bg: 'rgba(255,152,0,0.15)' };
+                    if (favor >= 0) return { text: '敌对', color: '#f44336', bg: 'rgba(244,67,54,0.15)' };
+                    return { text: '死敌', color: '#8b0000', bg: 'rgba(139,0,0,0.15)' };
+                };
+
+                document.getElementById('modalTitle').textContent = `${data.forceName} - 门派好感度`;
+                document.getElementById('modalContent').innerHTML = `
+                    <div style="margin-bottom: 12px;">
+                        <input type="text" id="forceFavorSearch" placeholder="搜索门派名称..." 
+                               style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);"
+                               oninput="filterForceFavorList()">
+                    </div>
+                    <div id="forceFavorList" style="max-height: 400px; overflow-y: auto;">
+                        ${data.favors.map(f => {
+                            const style = getFavorStyle(f.favor);
+                            return `
+                                <div class="force-favor-item" data-name="${f.forceName}" style="display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; margin-bottom: 6px; background: ${style.bg}; border-radius: 8px;">
+                                    <div>
+                                        <span style="font-weight: 500; color: ${style.color};">${f.forceName}</span>
+                                        <span style="font-size: 11px; color: var(--muted); margin-left: 8px;">${style.text}</span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <input type="number" value="${f.favor.toFixed(1)}" step="1" min="-100" max="100"
+                                               style="width: 70px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);"
+                                               onchange="updateForceFavor(${forceId}, ${f.forceID}, this.value)">
+                                        <button class="btn btn-small btn-secondary" style="padding: 4px 8px;" onclick="setForceFavorQuick(${forceId}, ${f.forceID}, 80, this)">同盟</button>
+                                        <button class="btn btn-small btn-secondary" style="padding: 4px 8px;" onclick="setForceFavorQuick(${forceId}, ${f.forceID}, 40, this)">中立</button>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+                document.getElementById('modalConfirm').textContent = '关闭';
+                document.getElementById('modalConfirm').onclick = closeModal;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        function filterForceFavorList() {
+            const q = document.getElementById('forceFavorSearch').value.toLowerCase();
+            const items = document.querySelectorAll('.force-favor-item');
+            items.forEach(item => {
+                const name = item.getAttribute('data-name').toLowerCase();
+                item.style.display = name.includes(q) ? 'flex' : 'none';
+            });
+        }
+
+        async function updateForceFavor(forceId, targetForceId, value) {
+            try {
+                await api(`/api/save/force/${forceId}/favor`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ targetForceID: targetForceId, favor: parseFloat(value) })
+                });
+                toast('好感度已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function setForceFavorQuick(forceId, targetForceId, value, btn) {
+            const input = btn.parentElement.querySelector('input');
+            input.value = value;
+            await updateForceFavor(forceId, targetForceId, value);
         }
 
         async function loadResources() {
