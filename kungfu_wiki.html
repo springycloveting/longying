@@ -357,6 +357,15 @@
             <button class="filter-btn" data-type="射术">射术</button>
         </div>
         <div class="attr-filter">
+            <select id="levelFilter">
+                <option value="">全部品级</option>
+                <option value="5">甲品</option>
+                <option value="4">乙品</option>
+                <option value="3">丙品</option>
+                <option value="2">丁品</option>
+                <option value="1">戊品</option>
+                <option value="0">己品</option>
+            </select>
             <select id="attrFilter">
                 <option value="">筛选属性...</option>
             </select>
@@ -21908,6 +21917,7 @@
         let currentSearch = '';
         let currentAttrFilter = '';
         let currentAttrField = 'all';
+        let currentLevelFilter = '';
 
         // 所有属性名称列表
         const allAttrNames = getUniqueAttrNames();
@@ -21981,6 +21991,12 @@
                 currentAttrField = e.target.value;
                 renderKungfuList();
             });
+
+            // 品级筛选
+            document.getElementById('levelFilter').addEventListener('change', (e) => {
+                currentLevelFilter = e.target.value;
+                renderKungfuList();
+            });
         }
 
         // 检查武功是否包含指定属性
@@ -22022,6 +22038,11 @@
             // 按属性筛选
             if (currentAttrFilter) {
                 filteredData = filteredData.filter(k => hasAttr(k, currentAttrFilter, currentAttrField));
+            }
+
+            // 按品级筛选
+            if (currentLevelFilter !== '') {
+                filteredData = filteredData.filter(k => k.level === parseInt(currentLevelFilter));
             }
 
             // 更新显示数量
