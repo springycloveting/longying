@@ -1,0 +1,28 @@
+[package]
+name = "web_server"
+version = "0.1.0"
+edition = "2021"
+description = "龙胤立志传 - Web 存档修改器 (Rust 版, 替代 web_server.py)"
+license = "MIT"
+
+[[bin]]
+name = "web_server"
+path = "src/main.rs"
+
+[dependencies]
+serde_json = "1"
+miniz_oxide = "0.8"
+
+[build-dependencies]
+miniz_oxide = "0.8"
+
+[profile.release]
+opt-level = "z"
+lto = "fat"
+codegen-units = 1
+panic = "abort"
+strip = "symbols"
+overflow-checks = false
+
+[profile.release.package."*"]
+opt-level = "z"

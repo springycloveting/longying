@@ -1,0 +1,2889 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>龙胤立志传 - 存档修改器</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --ink: #17211d;
+            --muted: #6f7b75;
+            --line: rgba(255, 255, 255, 0.58);
+            --glass: rgba(255, 255, 255, 0.58);
+            --accent: #276c58;
+            --accent-deep: #1c5142;
+            --shadow: 0 20px 55px rgba(40, 66, 56, 0.11);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'PingFang SC', sans-serif;
+            position: relative;
+            overflow: hidden;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at 12% 15%, rgba(180, 218, 204, 0.72), transparent 32%),
+                radial-gradient(circle at 87% 12%, rgba(221, 209, 181, 0.58), transparent 28%),
+                radial-gradient(circle at 78% 88%, rgba(186, 210, 220, 0.54), transparent 30%),
+                linear-gradient(145deg, #edf3ef 0%, #e9efec 44%, #f1eee7 100%);
+            min-height: 100vh;
+        }
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(8px);
+            pointer-events: none;
+        }
+        body::before {
+            width: 340px;
+            height: 340px;
+            left: -120px;
+            bottom: -140px;
+            background: rgba(87, 151, 128, 0.14);
+        }
+        body::after {
+            width: 280px;
+            height: 280px;
+            right: -100px;
+            top: 20%;
+            background: rgba(190, 151, 91, 0.12);
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            height: calc(100vh - 28px);
+            margin: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            background: rgba(238, 244, 240, 0.38);
+            box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(24px) saturate(135%);
+            -webkit-backdrop-filter: blur(24px) saturate(135%);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 272px;
+            border-right: 1px solid rgba(38, 73, 61, 0.09);
+            background: rgba(247, 250, 248, 0.48);
+            backdrop-filter: blur(22px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 24px 18px 16px;
+            border-bottom: 0;
+            background: transparent;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 22px;
+        }
+
+        .brand-mark {
+            display: grid;
+            width: 36px;
+            height: 36px;
+            place-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 12px;
+            color: #fff;
+            background: linear-gradient(145deg, #3c806b, #1e5746);
+            box-shadow: 0 9px 22px rgba(33, 91, 72, 0.24);
+            font-family: "STKaiti", "KaiTi", serif;
+            font-size: 18px;
+        }
+
+        .brand-name {
+            font-size: 15px;
+            font-weight: 650;
+            letter-spacing: 0.04em;
+        }
+
+        .brand-caption {
+            margin-top: 2px;
+            color: var(--muted);
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .sidebar-header h2 {
+            margin-bottom: 9px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 13px 10px 36px;
+            border: 1px solid rgba(42, 74, 63, 0.11);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.62);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            font-size: 13px;
+            color: var(--ink);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23717d77' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.8-3.8'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: 12px center;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: rgba(39, 108, 88, 0.48);
+            box-shadow: 0 0 0 3px rgba(39, 108, 88, 0.1), inset 0 1px 0 #fff;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .filter-tag {
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.48);
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .filter-tag.active {
+            background: rgba(39, 108, 88, 0.15);
+            border-color: rgba(39, 108, 88, 0.3);
+            color: var(--accent-deep);
+        }
+
+        .filter-tag:hover { background: rgba(255, 255, 255, 0.72); }
+
+        .hero-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 12px 16px;
+        }
+
+        .hero-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 11px 12px;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .hero-item:hover {
+            background: rgba(255, 255, 255, 0.48);
+            border-color: rgba(255, 255, 255, 0.72);
+            transform: translateX(2px);
+        }
+
+        .hero-item.selected {
+            border-color: rgba(255, 255, 255, 0.28);
+            background: linear-gradient(135deg, rgba(42, 111, 89, 0.94), rgba(30, 82, 66, 0.96));
+            box-shadow: 0 10px 22px rgba(31, 82, 66, 0.18);
+            color: #fff;
+        }
+
+        .hero-item.dead { opacity: 0.5; }
+
+        .hero-name { font-weight: 600; font-size: 14px; }
+        .hero-info { font-size: 12px; color: var(--muted); margin-top: 2px; }
+        .hero-item.selected .hero-info { color: rgba(255,255,255,0.7); }
+
+        .hero-badge {
+            font-size: 10px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            font-weight: 500;
+        }
+
+        .badge-leader { background: rgba(255, 255, 255, 0.16); color: #dff4eb; }
+        .badge-team { background: rgba(57, 129, 96, 0.15); color: #2a6e59; }
+        .badge-dead { background: rgba(184, 80, 72, 0.15); color: #b85048; }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: transparent;
+        }
+
+        .header {
+            min-height: 76px;
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(38, 73, 61, 0.08);
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .current-hero {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            background: rgba(255, 255, 255, 0.48);
+            border: 1px solid rgba(255, 255, 255, 0.64);
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .current-hero .name { color: var(--accent); font-weight: 600; }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover { transform: translateY(-1px); }
+
+        .btn-primary {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(145deg, #347a65, #215b49);
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(34, 92, 73, 0.18);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(145deg, #3b866f, #24634f);
+            box-shadow: 0 10px 22px rgba(34, 92, 73, 0.24);
+        }
+
+        .btn-secondary {
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            color: var(--ink);
+            background: rgba(255, 255, 255, 0.58);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(39, 108, 88, 0.22);
+            background: rgba(255, 255, 255, 0.82);
+        }
+
+        .btn-danger { background: #b85048; color: #fff; }
+
+        .btn-small { padding: 5px 12px; font-size: 12px; }
+
+        .slot-select {
+            padding: 8px 12px;
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.58);
+            font-size: 13px;
+            color: var(--ink);
+            cursor: pointer;
+        }
+
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        .status-badge.success { background: rgba(57, 129, 96, 0.15); color: #2a6e59; }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 7px;
+            padding: 9px 24px;
+            border-bottom: 1px solid rgba(38, 73, 61, 0.07);
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        .tab {
+            padding: 8px 14px;
+            border: 0;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--muted);
+            background: transparent;
+            transition: all 0.2s;
+        }
+
+        .tab:hover { color: var(--ink); background: rgba(255, 255, 255, 0.42); }
+
+        .tab.active {
+            color: var(--accent-deep);
+            border: 1px solid rgba(255, 255, 255, 0.62);
+            background: rgba(255, 255, 255, 0.72);
+            box-shadow: 0 5px 14px rgba(43, 71, 61, 0.08);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 22px 24px 32px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 30px rgba(44, 70, 61, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+            backdrop-filter: blur(16px) saturate(125%);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .count {
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        /* Status Cards */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .status-card {
+            background: rgba(244, 248, 245, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 13px;
+            padding: 16px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-card::after {
+            content: "";
+            position: absolute;
+            width: 90px;
+            height: 90px;
+            right: -38px;
+            top: -46px;
+            border-radius: 50%;
+            background: rgba(39, 108, 88, 0.055);
+        }
+
+        .status-card .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+        .status-card .value { font-size: 27px; font-weight: 700; letter-spacing: -0.04em; }
+
+        .status-card.hp .value { color: #388160; }
+        .status-card.power .value { color: #3d7189; }
+        .status-card.mana .value { color: #755f96; }
+
+        .status-bar {
+            height: 4px;
+            background: #e5e5ea;
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .status-bar-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .status-card.hp .status-bar-fill { background: #4b9472; }
+        .status-card.power .status-bar-fill { background: #4d8299; }
+        .status-card.mana .status-bar-fill { background: #806aa0; }
+
+        /* Attribute Grid */
+        .attr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .attr-item {
+            background: rgba(244, 248, 245, 0.64);
+            border: 1px solid rgba(255, 255, 255, 0.68);
+            border-radius: 10px;
+            padding: 12px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .attr-item:hover {
+            border-color: rgba(39, 108, 88, 0.16);
+            background: rgba(255, 255, 255, 0.72);
+            transform: translateY(-1px);
+        }
+
+        .attr-name { color: var(--muted); font-size: 13px; font-weight: 500; }
+
+        .attr-value {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+        }
+
+        .attr-value input {
+            width: 48px;
+            padding: 4px 6px;
+            border: 1px solid rgba(42, 74, 63, 0.11);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.62);
+            color: var(--ink);
+            text-align: center;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .attr-value input:focus {
+            outline: none;
+            border-color: rgba(39, 108, 88, 0.48);
+            box-shadow: 0 0 0 3px rgba(39, 108, 88, 0.1);
+        }
+
+        .attr-value .sep { color: var(--muted); font-size: 11px; }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .quick-btn {
+            padding: 10px 16px;
+            border: 1px solid rgba(42, 74, 63, 0.1);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.58);
+            color: var(--ink);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .quick-btn:hover {
+            border-color: rgba(39, 108, 88, 0.22);
+            background: rgba(255, 255, 255, 0.82);
+            transform: translateY(-1px);
+        }
+
+        /* Table */
+        .table-container { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border: 1px solid rgba(42, 74, 63, 0.08);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(237, 243, 239, 0.66);
+            color: var(--muted);
+            font-weight: 500;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(42, 74, 63, 0.08);
+        }
+
+        td {
+            border-bottom: 1px solid rgba(42, 74, 63, 0.06);
+            background: rgba(255, 255, 255, 0.38);
+            font-size: 13px;
+        }
+
+        tr:hover td { background: rgba(255, 255, 255, 0.7); }
+
+        .skill-type {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.55);
+        }
+
+        .skill-type.内功 { background: rgba(114, 46, 209, 0.15); color: #722ed1; }
+        .skill-type.轻功 { background: rgba(19, 194, 194, 0.15); color: #13c2c2; }
+        .skill-type.绝技 { background: rgba(235, 47, 150, 0.15); color: #eb2f96; }
+        .skill-type.拳掌 { background: rgba(250, 140, 22, 0.15); color: #fa8c16; }
+        .skill-type.剑法 { background: rgba(24, 144, 255, 0.15); color: #1890ff; }
+        .skill-type.刀法 { background: rgba(245, 34, 45, 0.15); color: #f5222d; }
+        .skill-type.长兵 { background: rgba(82, 196, 26, 0.15); color: #52c41a; }
+        .skill-type.奇门 { background: rgba(114, 46, 209, 0.15); color: #722ed1; }
+        .skill-type.射术 { background: rgba(250, 173, 20, 0.15); color: #faad14; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(22, 34, 29, 0.28);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+
+        .modal {
+            background: rgba(249, 251, 250, 0.82);
+            border: 1px solid rgba(255, 255, 255, 0.72);
+            border-radius: 18px;
+            padding: 24px;
+            min-width: 500px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 28px 80px rgba(20, 44, 35, 0.22);
+            backdrop-filter: blur(24px);
+        }
+
+        .modal h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .folder-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-bottom: 4px;
+            transition: background 0.2s;
+        }
+
+        .folder-item:hover { background: rgba(39, 108, 88, 0.1); }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 2000;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 10px;
+            background: rgba(27, 55, 45, 0.9);
+            color: #fff;
+            box-shadow: 0 14px 34px rgba(22, 51, 40, 0.2);
+            backdrop-filter: blur(12px);
+            margin-top: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast.error { background: rgba(184, 80, 72, 0.9); }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(61, 89, 79, 0.24); border-radius: 3px; }
+
+        @media (max-width: 980px) {
+            .container { margin: 8px; height: calc(100vh - 16px); border-radius: 18px; }
+            .sidebar { width: 224px; }
+            .header-left { gap: 10px; }
+            .current-hero { display: none; }
+            .attr-grid { grid-template-columns: repeat(2, 1fr); }
+            .status-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 720px) {
+            .sidebar { display: none; }
+            .header h1 { font-size: 16px; }
+            .tabs { overflow-x: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <div class="brand-mark">胤</div>
+                    <div>
+                        <div class="brand-name">龙胤立志传</div>
+                        <div class="brand-caption">Archive Studio</div>
+                    </div>
+                </div>
+                <h2>角色列表</h2>
+                <input type="text" class="search-box" id="heroSearch" placeholder="搜索角色..." oninput="filterHeroes()">
+                <div class="filter-tags">
+                    <span class="filter-tag active" data-filter="all">全部</span>
+                    <span class="filter-tag" data-filter="team">队友</span>
+                    <span class="filter-tag" data-filter="leader">掌门</span>
+                    <span class="filter-tag" data-filter="dead">死亡</span>
+                </div>
+            </div>
+            <div class="hero-list" id="heroList">
+                <div class="empty-state"><p>请先加载存档</p></div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <div class="header-left">
+                    <h1>存档修改器</h1>
+                    <div class="current-hero" id="currentHeroDisplay" style="display: none;">
+                        <span>当前角色：</span>
+                        <span class="name" id="currentHeroName"></span>
+                    </div>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="switchToWorldPage()">🌍 切换到世界页面</button>
+                    <span id="statusBadge" class="status-badge">未加载</span>
+                    <button class="btn btn-secondary" onclick="showFolderBrowser()">📁 选择目录</button>
+                    <select id="slotSelect" class="slot-select">
+                        <option value="0">自动存档</option>
+                        <option value="1">存档 1</option>
+                        <option value="2">存档 2</option>
+                        <option value="3">存档 3</option>
+                        <option value="4">存档 4</option>
+                        <option value="5">存档 5</option>
+                        <option value="6">存档 6</option>
+                        <option value="7">存档 7</option>
+                        <option value="8">存档 8</option>
+                        <option value="9">存档 9</option>
+                        <option value="10">快速存档</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="loadSelectedSlot()">📂 加载</button>
+                    <button class="btn btn-secondary" onclick="saveSave()">💾 保存</button>
+                    <button class="btn btn-secondary" onclick="backupSave()">📤 备份</button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('basic', this)">📊 基本属性</button>
+                <button class="tab" onclick="showTab('skills', this)">⚔️ 武功技能</button>
+                <button class="tab" onclick="showTab('items', this)">🎒 物品装备</button>
+                <button class="tab" onclick="showTab('talents', this)">✨ 天赋</button>
+                <button class="tab" onclick="showTab('details', this)">📋 详细属性</button>
+                <button class="tab" onclick="showTab('force', this)">🏛️ 门派功绩</button>
+                <button class="tab" onclick="showTab('relations', this)">👥 人际关系</button>
+                <button class="tab" onclick="showTab('batch', this)">🔧 批量操作</button>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area" id="mainContent">
+                <div class="empty-state">
+                    <h2>欢迎使用龙胤立志传存档修改器</h2>
+                    <p style="margin-top: 12px;">选择存档目录 → 选择存档槽 → 点击加载</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle">标题</h3>
+            <div id="modalContent"></div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal()">取消</button>
+                <button class="btn btn-primary" id="modalConfirm">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ========== Global State ==========
+        let heroes = [];
+        let currentHero = null;
+        let currentFilter = 'all';
+        let saveFolder = null;
+
+        // ========== API ==========
+        async function api(endpoint, options = {}) {
+            const res = await fetch(endpoint, {
+                headers: { 'Content-Type': 'application/json' },
+                ...options
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || '请求失败');
+            return data;
+        }
+
+        // ========== Toast ==========
+        function toast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const div = document.createElement('div');
+            div.className = `toast ${type === 'error' ? 'error' : ''}`;
+            div.textContent = message;
+            container.appendChild(div);
+            setTimeout(() => div.remove(), 3000);
+        }
+
+        // ========== Modal ==========
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+        }
+
+        function switchToWorldPage() {
+            const slotId = document.getElementById('slotSelect').value;
+            localStorage.setItem('longying_slot', slotId);
+            if (saveFolder) {
+                localStorage.setItem('longying_save_folder', saveFolder);
+            }
+            window.location.href = '/world';
+        }
+
+        function loadSavedSlot() {
+            const savedSlot = localStorage.getItem('longying_slot');
+            if (savedSlot) {
+                document.getElementById('slotSelect').value = savedSlot;
+            }
+        }
+
+        // ========== Folder Browser ==========
+        let browserPath = '.';
+
+        async function showFolderBrowser() {
+            const status = await api('/api/status');
+            browserPath = status.save_folder || '.';
+            await refreshFolderBrowser();
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function refreshFolderBrowser() {
+            try {
+                const data = await api(`/api/browse_folders?path=${encodeURIComponent(browserPath)}`);
+                browserPath = data.current;
+                let html = `
+                    <div style="margin-bottom: 12px; display: flex; gap: 8px;">
+                        <input type="text" id="pathInput" value="${browserPath}"
+                               style="flex: 1; padding: 8px; border: 1px solid rgba(42,74,63,0.11); border-radius: 8px; background: rgba(255,255,255,0.62);"
+                               onkeydown="if(event.key==='Enter'){browserPath=this.value;refreshFolderBrowser();}">
+                        <button class="btn btn-secondary" onclick="browserPath=document.getElementById('pathInput').value;refreshFolderBrowser();">转到</button>
+                    </div>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        ${data.parent ? `<div class="folder-item" onclick="browserPath='${data.parent}';refreshFolderBrowser();">📁 ..</div>` : ''}
+                        ${data.items.map(item => `
+                            <div class="folder-item" onclick="browserPath='${item.path.replace(/\\/g, '\\\\')}';refreshFolderBrowser();">📁 ${item.name}</div>
+                        `).join('')}
+                    </div>
+                    <div style="color: var(--muted); font-size: 12px; margin-top: 12px;">提示: 找到包含 SaveSlot0, SaveSlot1... 的 Save 文件夹</div>
+                `;
+                document.getElementById('modalTitle').textContent = '选择存档目录';
+                document.getElementById('modalContent').innerHTML = html;
+                document.getElementById('modalConfirm').textContent = '确定';
+                document.getElementById('modalConfirm').onclick = confirmSaveFolder;
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function confirmSaveFolder() {
+            try {
+                await api('/api/save_folder', { method: 'POST', body: JSON.stringify({ folder: browserPath }) });
+                saveFolder = browserPath;
+                closeModal();
+                toast(`已选择: ${browserPath}`);
+                await updateSlotInfo();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateSlotInfo() {
+            if (!saveFolder) return;
+            try {
+                const slots = await api('/api/save_slots');
+                const select = document.getElementById('slotSelect');
+                const currentVal = select.value;
+                select.innerHTML = '';
+                for (const slot of slots) {
+                    const opt = document.createElement('option');
+                    opt.value = slot.slot;
+                    let name = slot.name;
+                    if (!slot.exists) name += ' (空)';
+                    else if (slot.info) {
+                        const detail = (slot.info.SaveDetail || '').replace(/<[^>]+>/g, '').split('\n')[0];
+                        if (detail) name += ` - ${detail}`;
+                    }
+                    opt.textContent = name;
+                    opt.disabled = !slot.exists;
+                    select.appendChild(opt);
+                }
+            } catch (e) {
+                console.error('刷新存档信息失败', e);
+            }
+        }
+
+        async function loadSelectedSlot() {
+            if (!saveFolder) {
+                toast('请先选择存档目录', 'error');
+                return;
+            }
+            const slotId = document.getElementById('slotSelect').value;
+            localStorage.setItem('longying_slot', slotId);
+            try {
+                const data = await api('/api/load', { method: 'POST', body: JSON.stringify({ slot: parseInt(slotId) }) });
+                heroes = await api('/api/heroes');
+                document.getElementById('statusBadge').textContent = `${data.hero_count} 角色`;
+                document.getElementById('statusBadge').className = 'status-badge success';
+                renderHeroList();
+                toast(`加载成功，共 ${data.hero_count} 个角色`);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function loadHeroes() {
+            heroes = await api('/api/heroes');
+            renderHeroList();
+        }
+
+        async function saveSave() {
+            try {
+                const data = await api('/api/save', { method: 'POST' });
+                toast(`保存成功！备份: ${data.backup}`);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function backupSave() {
+            try {
+                const data = await api('/api/backup', { method: 'POST' });
+                toast(`备份成功: ${data.backup}`);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Hero List ==========
+        function renderHeroList() {
+            const list = document.getElementById('heroList');
+            const search = document.getElementById('heroSearch').value.toLowerCase();
+
+            const filtered = heroes.filter(h => {
+                const matchSearch = h.heroName.toLowerCase().includes(search);
+                let matchFilter = true;
+                if (currentFilter === 'team') matchFilter = h.inTeam;
+                else if (currentFilter === 'leader') matchFilter = h.isLeader;
+                else if (currentFilter === 'dead') matchFilter = h.dead;
+                return matchSearch && matchFilter;
+            });
+
+            list.innerHTML = filtered.map(h => `
+                <div class="hero-item ${h.dead ? 'dead' : ''} ${currentHero?.heroID === h.heroID ? 'selected' : ''}"
+                     onclick="selectHero(${h.heroID})">
+                    <div>
+                        <div class="hero-name">${h.heroName}</div>
+                        <div class="hero-info">${h.forceName}${h.isLeader ? ' · 掌门' : ''}</div>
+                    </div>
+                    ${h.inTeam ? '<span class="hero-badge badge-team">队友</span>' : ''}
+                    ${h.dead ? '<span class="hero-badge badge-dead">死亡</span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function filterHeroes() { renderHeroList(); }
+
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                currentFilter = tag.dataset.filter;
+                renderHeroList();
+            });
+        });
+
+        // ========== Select Hero ==========
+        async function selectHero(heroId) {
+            try {
+                currentHero = await api(`/api/hero/${heroId}`);
+                document.getElementById('currentHeroDisplay').style.display = 'flex';
+                document.getElementById('currentHeroName').textContent = currentHero.heroName;
+                renderHeroDetail();
+                renderHeroList();
+                showTab('basic');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Render Hero Detail ==========
+        function renderHeroDetail() {
+            const h = currentHero;
+            const hpPct = Math.min(100, (h.hp / h.maxhp) * 100) || 0;
+            const powerPct = Math.min(100, (h.power / h.maxPower) * 100) || 0;
+            const manaPct = Math.min(100, (h.mana / h.maxMana) * 100) || 0;
+
+            const content = document.getElementById('mainContent');
+            content.innerHTML = `
+                <!-- Status -->
+                <div class="status-grid">
+                    <div class="status-card hp">
+                        <div class="label">生命</div>
+                        <div class="value">${Math.floor(h.hp)} / ${Math.floor(h.maxhp)}</div>
+                        <div class="status-bar"><div class="status-bar-fill" style="width: ${hpPct}%"></div></div>
+                    </div>
+                    <div class="status-card power">
+                        <div class="label">体力</div>
+                        <div class="value">${Math.floor(h.power)} / ${Math.floor(h.maxPower)}</div>
+                        <div class="status-bar"><div class="status-bar-fill" style="width: ${powerPct}%"></div></div>
+                    </div>
+                    <div class="status-card mana">
+                        <div class="label">内力</div>
+                        <div class="value">${Math.floor(h.mana)} / ${Math.floor(h.maxMana)}</div>
+                        <div class="status-bar"><div class="status-bar-fill" style="width: ${manaPct}%"></div></div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section">
+                    <div class="section-title">快捷操作</div>
+                    <div class="quick-actions">
+                        <button class="quick-btn" onclick="heroAction('heal')">💊 治愈</button>
+                        <button class="quick-btn" onclick="heroAction('revive')">🔄 复活</button>
+                        <button class="quick-btn" onclick="heroAction('max_all')">⚡ 全满</button>
+                        <button class="quick-btn" onclick="heroAction('skills_max')">🗡️ 武功满级</button>
+                        <button class="quick-btn" onclick="heroAction('fame_max')">⭐ 声望满</button>
+                        <button class="quick-btn" onclick="heroAction('money_max')">💰 金钱满</button>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div id="tabContent"></div>
+            `;
+
+            showTab('basic');
+        }
+
+        // ========== Tabs ==========
+        function showTab(tab, btn) {
+            if (btn) {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            const content = document.getElementById('tabContent');
+            const h = currentHero;
+
+            if (tab === 'basic') {
+                // 天赋名称映射
+                const talentNames = {
+                    0: { name: '愚钝', color: '#808080', desc: '资质愚钝，修炼速度较慢' },
+                    1: { name: '平庸', color: '#a0a0a0', desc: '资质平庸，修炼速度一般' },
+                    2: { name: '普通', color: '#ffffff', desc: '资质普通，修炼速度正常' },
+                    3: { name: '聪慧', color: '#4fc3f7', desc: '天资聪慧，修炼速度较快' },
+                    4: { name: '天纵', color: '#ffd700', desc: '天纵奇才，修炼速度极快' }
+                };
+                const talent = talentNames[h.talent] || talentNames[2];
+
+                content.innerHTML = `
+                    <!-- 天赋 -->
+                    <div class="section">
+                        <div class="section-title">天赋资质</div>
+                        <div class="attr-grid" style="grid-template-columns: repeat(5, 1fr);">
+                            ${Object.entries(talentNames).map(([id, t]) => `
+                                <div class="attr-item ${h.talent == id ? 'active' : ''}"
+                                     style="${h.talent == id ? 'border: 2px solid ' + t.color + '; background: rgba(255,255,255,0.9);' : 'opacity: 0.6;'}"
+                                     onclick="updateTalent(${id})"
+                                     title="${t.desc}">
+                                    <span class="attr-name" style="color: ${t.color}; font-weight: ${h.talent == id ? '600' : '400'};">${t.name}</span>
+                                    ${h.talent == id ? '<span style="color: ' + t.color + ';">✓</span>' : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <p style="margin-top: 8px; color: var(--muted); font-size: 12px;">
+                            当前: <strong style="color: ${talent.color};">${talent.name}</strong> - ${talent.desc}
+                        </p>
+                    </div>
+
+                    <!-- 基础属性 -->
+                    <div class="section">
+                        <div class="section-title">基础属性 <span class="count">(基础 / 上限)</span></div>
+                        <div class="attr-grid">
+                            ${['力道', '灵巧', '智力', '意志', '体质', '经脉'].map((name, i) => `
+                                <div class="attr-item">
+                                    <span class="attr-name">${name}</span>
+                                    <div class="attr-value">
+                                        <input type="number" value="${Math.floor(h.baseAttri[i])}"
+                                               onchange="updateAttr('base', ${i}, this.value)" title="基础值">
+                                        <span class="sep">/</span>
+                                        <input type="number" value="${Math.floor(h.maxAttri[i])}"
+                                               onchange="updateAttr('max', ${i}, this.value)" title="上限值">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- 武学属性 -->
+                    <div class="section">
+                        <div class="section-title">武学属性 <span class="count">(基础 / 上限)</span></div>
+                        <div class="attr-grid">
+                            ${['内功', '轻功', '绝技', '拳掌', '剑法', '刀法', '长兵', '奇门', '射术'].map((name, i) => `
+                                <div class="attr-item">
+                                    <span class="attr-name">${name}</span>
+                                    <div class="attr-value">
+                                        <input type="number" value="${Math.floor(h.baseFightSkill[i])}"
+                                               onchange="updateAttr('fight_base', ${i}, this.value)" title="基础值">
+                                        <span class="sep">/</span>
+                                        <input type="number" value="${Math.floor(h.maxFightSkill[i])}"
+                                               onchange="updateAttr('fight_max', ${i}, this.value)" title="上限值">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- 技能属性 -->
+                    <div class="section">
+                        <div class="section-title">技能属性 <span class="count">(基础 / 上限)</span></div>
+                        <div class="attr-grid">
+                            ${['医术', '毒术', '学识', '口才', '采伐', '木植', '锻造', '炼丹', '烹饪'].map((name, i) => `
+                                <div class="attr-item">
+                                    <span class="attr-name">${name}</span>
+                                    <div class="attr-value">
+                                        <input type="number" value="${Math.floor(h.baseLivingSkill[i])}"
+                                               onchange="updateAttr('living_base', ${i}, this.value)" title="基础值">
+                                        <span class="sep">/</span>
+                                        <input type="number" value="${Math.floor(h.maxLivingSkill[i])}"
+                                               onchange="updateAttr('living_max', ${i}, this.value)" title="上限值">
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- 声望金钱 -->
+                    <div class="section">
+                        <div class="section-title">声望与金钱</div>
+                        <div class="attr-grid">
+                            <div class="attr-item">
+                                <span class="attr-name">声望</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${Math.floor(h.fame)}" style="width: 70px;"
+                                           onchange="updateFame('fame', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">恶名</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${Math.floor(h.badFame)}" style="width: 70px;"
+                                           onchange="updateFame('badFame', this.value)">
+                                </div>
+                            </div>
+                            <div class="attr-item">
+                                <span class="attr-name">金钱</span>
+                                <div class="attr-value">
+                                    <input type="number" value="${h.money}" style="width: 90px;" max="999999"
+                                           onchange="updateMoney(this.value)">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (tab === 'skills') {
+                loadSkillsTab();
+            } else if (tab === 'items') {
+                loadItemsTab();
+            } else if (tab === 'talents') {
+                loadTalentsTab();
+            } else if (tab === 'details') {
+                loadDetailsTab();
+            } else if (tab === 'force') {
+                loadForceTab();
+            } else if (tab === 'relations') {
+                loadRelationsTab();
+            } else if (tab === 'batch') {
+                content.innerHTML = `
+                    <div class="section">
+                        <div class="section-title">批量操作 - 对所有角色生效</div>
+                        <div class="quick-actions">
+                            <button class="quick-btn" onclick="batchAction('max_all')">⚡ 全属性满</button>
+                            <button class="quick-btn" onclick="batchAction('heal')">💊 全部治愈</button>
+                            <button class="quick-btn" onclick="batchAction('revive')">🔄 全部复活</button>
+                            <button class="quick-btn" onclick="batchAction('skills_max')">🗡️ 全武功满级</button>
+                        </div>
+                    </div>
+                    <div class="section">
+                        <div class="section-title">存档统计</div>
+                        <div class="attr-grid">
+                            <div class="attr-item"><span class="attr-name">角色总数</span><span class="attr-value">${heroes.length}</span></div>
+                            <div class="attr-item"><span class="attr-name">队友数量</span><span class="attr-value">${heroes.filter(h => h.inTeam).length}</span></div>
+                            <div class="attr-item"><span class="attr-name">死亡角色</span><span class="attr-value">${heroes.filter(h => h.dead).length}</span></div>
+                            <div class="attr-item"><span class="attr-name">掌门数量</span><span class="attr-value">${heroes.filter(h => h.isLeader).length}</span></div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        let allAttrs = [];
+        
+        async function loadAllAttrs() {
+            if (allAttrs.length === 0) {
+                allAttrs = await api('/api/attrs/search');
+            }
+            return allAttrs;
+        }
+
+        function getAttrName(attrId) {
+            if (!attrId) return '无';
+            const attr = allAttrs.find(a => a.id === String(attrId));
+            return attr ? attr.name : `ID:${attrId}`;
+        }
+
+        function renderExtraAttrCell(idx, attrIndex, attrs) {
+            const current = attrs[attrIndex];
+            const attrName = current ? getAttrName(current.id) : '无';
+            const attrValue = current ? current.value : 0;
+            return `
+                <div style="display: flex; align-items: center; gap: 4px;">
+                    <button class="btn btn-small btn-secondary" style="min-width: 70px; font-size: 12px; padding: 4px 8px;" 
+                            onclick="openAttrSearchModal(${idx}, ${attrIndex}, ${current ? `'${current.id}'` : 'null'}, ${attrValue})">${attrName}</button>
+                    <input type="number" value="${attrValue}" step="0.1" style="width: 50px; padding: 4px 6px; border: 1px solid rgba(42,74,63,0.11); border-radius: 6px; background: rgba(255,255,255,0.62); font-size: 12px;"
+                           onchange="updateExtraAttrValueDirect(${idx}, ${attrIndex}, this.value, ${current ? `'${current.id}'` : 'null'})" ${!current ? 'disabled' : ''}>
+                    ${current ? `<button class="btn btn-small btn-danger" style="padding: 2px 6px; font-size: 12px;" onclick="deleteExtraAttr(${idx}, ${attrIndex})">×</button>` : ''}
+                </div>
+            `;
+        }
+
+        let currentAttrSearchCallback = null;
+
+        function openAttrSearchModal(skillIdx, attrIndex, currentAttrId, currentValue) {
+            window._attrSearchSkillIdx = skillIdx;
+            window._attrSearchAttrIndex = attrIndex;
+            window._attrSearchCurrentValue = currentValue;
+            
+            document.getElementById('modalTitle').textContent = '选择突破属性';
+            document.getElementById('modalContent').innerHTML = `
+                <input type="text" class="search-box" id="attrSearchInput" placeholder="输入属性名称或ID搜索..." oninput="filterAttrSearch()" style="margin-bottom: 12px;">
+                <div id="attrSearchResults" style="max-height: 300px; overflow-y: auto;">
+                    <p style="color: var(--muted); text-align: center; padding: 20px;">输入关键字开始搜索</p>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            document.getElementById('modalOverlay').classList.add('active');
+            
+            setTimeout(() => document.getElementById('attrSearchInput').focus(), 100);
+        }
+
+        function filterAttrSearch() {
+            const q = document.getElementById('attrSearchInput').value.toLowerCase().trim();
+            let filtered = allAttrs;
+            if (q) {
+                filtered = allAttrs.filter(a => 
+                    a.name.toLowerCase().includes(q) || 
+                    a.id === q ||
+                    a.id === String(parseInt(q))
+                );
+            }
+            
+            const container = document.getElementById('attrSearchResults');
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="color: var(--muted); text-align: center;">未找到匹配属性</p>';
+                return;
+            }
+            
+            container.innerHTML = filtered.slice(0, 50).map(a => `
+                <div class="folder-item" onclick="selectExtraAttr('${a.id}', '${a.name}')">
+                    <strong>${a.name}</strong> <span style="color: var(--muted);">(ID: ${a.id})</span>
+                </div>
+            `).join('');
+        }
+
+        async function selectExtraAttr(attrId, attrName) {
+            const skillIdx = window._attrSearchSkillIdx;
+            const attrIndex = window._attrSearchAttrIndex;
+            const currentValue = window._attrSearchCurrentValue || 0;
+            
+            const skill = await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`);
+            let attrs = skill.extraAddData ? [...skill.extraAddData] : [];
+            
+            while (attrs.length <= attrIndex) {
+                attrs.push({ id: '', value: 0 });
+            }
+            
+            attrs[attrIndex] = { id: attrId, value: currentValue || 0.1 };
+            
+            await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`, {
+                method: 'PUT',
+                body: JSON.stringify({ extraAddData: attrs })
+            });
+            
+            closeModal();
+            toast(`已设置: ${attrName}`);
+            loadSkillsTab();
+        }
+
+        async function updateExtraAttrValueDirect(skillIdx, attrIndex, value, attrId) {
+            if (!attrId) return;
+            
+            const skill = await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`);
+            let attrs = skill.extraAddData ? [...skill.extraAddData] : [];
+            
+            while (attrs.length <= attrIndex) {
+                attrs.push({ id: '', value: 0 });
+            }
+            
+            attrs[attrIndex] = { id: attrId, value: parseFloat(value) || 0 };
+            
+            await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`, {
+                method: 'PUT',
+                body: JSON.stringify({ extraAddData: attrs })
+            });
+            toast('已更新');
+        }
+
+        async function deleteExtraAttr(skillIdx, attrIndex) {
+            const skill = await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`);
+            let attrs = skill.extraAddData ? [...skill.extraAddData] : [];
+            
+            if (attrIndex < attrs.length) {
+                attrs.splice(attrIndex, 1);
+            }
+            
+            await api(`/api/hero/${currentHero.heroID}/skill/${skillIdx}`, {
+                method: 'PUT',
+                body: JSON.stringify({ extraAddData: attrs })
+            });
+            toast('已删除');
+            loadSkillsTab();
+        }
+
+        // ========== Skills Tab ==========
+        async function loadSkillsTab() {
+            await loadAllAttrs();
+            const skills = await api(`/api/hero/${currentHero.heroID}/skills`);
+            const content = document.getElementById('tabContent');
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">
+                        已学武功 <span class="count">${skills.length} 门</span>
+                        <button class="btn btn-small btn-primary" style="float: right;" onclick="heroAction('skills_max')">全部满级</button>
+                        <button class="btn btn-small btn-secondary" style="float: right; margin-right: 8px;" onclick="openAddSkillModal()">➕ 添加武功</button>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>武功名称</th>
+                                    <th>类型</th>
+                                    <th>等级</th>
+                                    <th>突破属性1</th>
+                                    <th>突破属性2</th>
+                                    <th>突破属性3</th>
+                                    <th>状态</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${skills.map(s => {
+                                    const extraAttrs = s.extraAddData || [];
+                                    return `
+                                    <tr>
+                                        <td><strong style="cursor:pointer;color:var(--accent);" onclick="showSkillDetail(${s.index})">${s.name}</strong></td>
+                                        <td><span class="skill-type ${s.type}">${s.type || '未知'}</span></td>
+                                        <td><input type="number" value="${s.lv}" min="1" max="10" style="width: 45px;" onchange="updateSkillLv(${s.index}, this.value)"></td>
+                                        <td>${renderExtraAttrCell(s.index, 0, extraAttrs)}</td>
+                                        <td>${renderExtraAttrCell(s.index, 1, extraAttrs)}</td>
+                                        <td>${renderExtraAttrCell(s.index, 2, extraAttrs)}</td>
+                                        <td>${s.equiped ? '<span class="hero-badge badge-team">装备</span>' : ''}${s.isNew ? '<span class="hero-badge">新</span>' : ''}</td>
+                                        <td>
+                                            <button class="btn btn-small btn-secondary" onclick="showSkillDetail(${s.index})">详情</button>
+                                            <button class="btn btn-small btn-danger" onclick="deleteSkill(${s.index})">删除</button>
+                                        </td>
+                                    </tr>
+                                    `;
+                                }).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+        }
+
+        // ========== Skill Detail Modal ==========
+        async function showSkillDetail(idx) {
+            const skill = await api(`/api/hero/${currentHero.heroID}/skill/${idx}`);
+            
+            const renderAttrs = (attrs, fieldName) => attrs.map(a => `
+                <div class="attr-item" style="margin-bottom: 6px;">
+                    <span class="attr-name">${a.name} (${a.id})</span>
+                    <div class="attr-value">
+                        <input type="number" value="${a.value}" step="0.1" style="width: 70px;"
+                               onchange="updateSkillAttr(${idx}, '${fieldName}', '${a.id}', this.value)">
+                        <button class="btn btn-small btn-danger" style="padding: 2px 6px;" onclick="updateSkillAttr(${idx}, '${fieldName}', '${a.id}', 0);showSkillDetail(${idx});">×</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color: var(--muted);">无</p>';
+
+            document.getElementById('modalTitle').textContent = `武功详情 - ${skill.name}`;
+            document.getElementById('modalContent').innerHTML = `
+                <div class="attr-grid" style="margin-bottom: 16px;">
+                    <div class="attr-item">
+                        <span class="attr-name">类型</span>
+                        <span class="attr-value"><span class="skill-type ${skill.type}">${skill.type || '未知'}</span></span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">等级</span>
+                        <div class="attr-value"><input type="number" value="${skill.lv}" min="1" max="10" style="width: 50px;" onchange="updateSkillLv(${idx}, this.value)"></div>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">ID</span>
+                        <span class="attr-value">${skill.skillID}</span>
+                    </div>
+                </div>
+                
+                <div class="attr-grid" style="margin-bottom: 16px;">
+                    <div class="attr-item">
+                        <span class="attr-name">实战经验</span>
+                        <span class="attr-value">${Math.floor(skill.fightExp)}</span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">理论经验</span>
+                        <span class="attr-value">${Math.floor(skill.bookExp)}</span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">装备</span>
+                        <span class="attr-value">${skill.equiped ? '是' : '否'}</span>
+                    </div>
+                </div>
+
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+                    <div class="section-title" style="margin-bottom: 8px;">伤害加成</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">伤害</span>
+                            <div class="attr-value"><input type="number" value="${Math.floor(skill.damageUseSpeAddValue)}" style="width: 60px;" onchange="updateSkillField(${idx}, 'damageUseSpeAddValue', this.value)"></div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">自身</span>
+                            <div class="attr-value"><input type="number" value="${Math.floor(skill.selfUseSpeAddValue)}" style="width: 60px;" onchange="updateSkillField(${idx}, 'selfUseSpeAddValue', this.value)"></div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">敌方</span>
+                            <div class="attr-value"><input type="number" value="${Math.floor(skill.enemyUseSpeAddValue)}" style="width: 60px;" onchange="updateSkillField(${idx}, 'enemyUseSpeAddValue', this.value)"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        装备加成
+                        <button class="btn btn-small btn-secondary" style="float: right; padding: 2px 8px;" onclick="addSkillAttr(${idx}, 'speEquipData')">+ 添加</button>
+                    </div>
+                    ${renderAttrs(skill.speEquipData, 'speEquipData')}
+                </div>
+
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 12px; margin-bottom: 12px;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        特殊属性
+                        <button class="btn btn-small btn-secondary" style="float: right; padding: 2px 8px;" onclick="addSkillAttr(${idx}, 'speUseData')">+ 添加</button>
+                    </div>
+                    ${renderAttrs(skill.speUseData, 'speUseData')}
+                </div>
+
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 12px;">
+                    <div class="section-title" style="margin-bottom: 8px;">
+                        突破属性
+                        <button class="btn btn-small btn-secondary" style="float: right; padding: 2px 8px;" onclick="addSkillAttr(${idx}, 'extraAddData')">+ 添加</button>
+                    </div>
+                    ${renderAttrs(skill.extraAddData, 'extraAddData')}
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '关闭';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function updateSkillField(idx, field, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/skill/${idx}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ [field]: parseFloat(value) })
+                });
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateSkillAttr(idx, fieldName, attrId, value) {
+            try {
+                const skill = await api(`/api/hero/${currentHero.heroID}/skill/${idx}`);
+                const attrs = skill[fieldName].map(a => {
+                    if (a.id === attrId) return { id: attrId, value: parseFloat(value) };
+                    return a;
+                });
+                if (!attrs.find(a => a.id === attrId)) {
+                    attrs.push({ id: attrId, value: parseFloat(value) });
+                }
+                await api(`/api/hero/${currentHero.heroID}/skill/${idx}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ [fieldName]: attrs.filter(a => a.value !== 0) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function addSkillAttr(idx, fieldName) {
+            const attrs = await api('/api/attrs/search');
+            window._currentSkillIdx = idx;
+            window._currentFieldName = fieldName;
+            document.getElementById('modalTitle').textContent = '添加属性';
+            document.getElementById('modalContent').innerHTML = `
+                <input type="text" class="search-box" id="attrSearchInput" placeholder="搜索属性..." oninput="filterAttrs()" style="margin-bottom: 12px;">
+                <div id="attrSearchResults" style="max-height: 300px; overflow-y: auto;">
+                    ${attrs.slice(0, 50).map(a => `
+                        <div class="folder-item" onclick="selectSkillAttr(${idx}, '${fieldName}', '${a.id}', '${a.name}')">
+                            <strong>${a.name}</strong> <span style="color: var(--muted);">(ID: ${a.id})</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = () => showSkillDetail(idx);
+            window._allAttrs = attrs;
+        }
+
+        async function filterAttrs() {
+            const q = document.getElementById('attrSearchInput').value.toLowerCase();
+            const filtered = window._allAttrs.filter(a => a.name.toLowerCase().includes(q)).slice(0, 50);
+            document.getElementById('attrSearchResults').innerHTML = filtered.map(a => `
+                <div class="folder-item" onclick="selectSkillAttr(${window._currentSkillIdx}, '${window._currentFieldName}', '${a.id}', '${a.name}')">
+                    <strong>${a.name}</strong> <span style="color: var(--muted);">(ID: ${a.id})</span>
+                </div>
+            `).join('');
+        }
+
+        async function selectSkillAttr(idx, fieldName, attrId, attrName) {
+            const value = prompt(`输入 ${attrName} 的值:`, '0.1');
+            if (value === null) return;
+            await updateSkillAttr(idx, fieldName, attrId, value);
+            showSkillDetail(idx);
+        }
+
+        // ========== Items Tab ==========
+        async function loadItemsTab() {
+            await loadAllAttrs();
+            const data = await api(`/api/hero/${currentHero.heroID}/items`);
+            const content = document.getElementById('tabContent');
+
+            const renderEquipItem = (item, slotName) => {
+                if (!item) return `<span style="color: var(--muted);">无</span>`;
+                const baseAttrs = item.equipmentData?.baseAddData || [];
+                const extraAttrs = item.equipmentData?.extraAddData || [];
+                return `
+                    <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 10px; margin-bottom: 8px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                            <strong style="cursor: pointer; color: var(--accent);" onclick="showItemDetail(${item.index})">${item.name}</strong>
+                            <span style="font-size: 12px; color: var(--muted);">Lv.${item.itemLv} 品质${item.rareLv}</span>
+                        </div>
+                        <div style="font-size: 12px;">
+                            基础: ${baseAttrs.map(a => `${getAttrName(a.id)}${a.value >= 1 ? '+' + Math.floor(a.value) : '+' + (a.value * 100).toFixed(0) + '%'}`).join(', ') || '无'}
+                        </div>
+                        <div style="font-size: 12px; color: var(--accent);">
+                            附加: ${extraAttrs.map(a => `${getAttrName(a.id)}${a.value >= 1 ? '+' + Math.floor(a.value) : '+' + (a.value * 100).toFixed(0) + '%'}`).join(', ') || '无'}
+                        </div>
+                    </div>
+                `;
+            };
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">背包信息</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">金钱</span>
+                            <div class="attr-value">
+                                <input type="number" value="${data.money}" style="width: 90px;" max="999999" onchange="updateMoney(this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">负重</span>
+                            <span class="attr-value">${Math.floor(data.weight)} / ${Math.floor(data.maxWeight)}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">物品数</span>
+                            <span class="attr-value">${data.totalItems}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">已装备物品</div>
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">武器</div>
+                            ${renderEquipItem(data.equippedItems?.weapon, 'weapon')}
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">护甲</div>
+                            ${renderEquipItem(data.equippedItems?.armor, 'armor')}
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">头盔</div>
+                            ${renderEquipItem(data.equippedItems?.helmet, 'helmet')}
+                        </div>
+                        <div>
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">鞋子</div>
+                            ${renderEquipItem(data.equippedItems?.shoes, 'shoes')}
+                        </div>
+                        <div style="grid-column: span 2;">
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 6px;">饰品</div>
+                            ${data.equippedItems?.decorations?.map(d => renderEquipItem(d, 'decoration')).join('') || '<span style="color: var(--muted);">无</span>'}
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">物品列表 <span class="count">${data.totalItems}</span></div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <button class="btn btn-small btn-primary" onclick="openCreateItemModal()">+ 创建物品</button>
+                        <button class="btn btn-small btn-secondary" onclick="removeItemsByType()">按类型删除</button>
+                        <button class="btn btn-small btn-secondary" onclick="removeDuplicateItems()">删除重复物品</button>
+                    </div>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        ${Object.entries(data.itemsByType).map(([type, items]) => `
+                            <div style="margin-bottom: 12px;">
+                                <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">${type} (${items.length})</div>
+                                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                                    ${items.map(item => `
+                                        <span class="hero-badge ${item.equipped ? 'badge-team' : ''}" 
+                                              style="cursor: pointer;" 
+                                              onclick="showItemDetail(${item.index})">${item.name} Lv.${item.itemLv}</span>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function showItemDetail(itemIndex) {
+            await loadAllAttrs();
+            const item = await api(`/api/hero/${currentHero.heroID}/item/${itemIndex}`);
+            
+            const renderAttrEdit = (attrs, fieldName) => attrs.map((a, i) => `
+                <div class="attr-item" style="margin-bottom: 4px;">
+                    <span class="attr-name">${getAttrName(a.id)}</span>
+                    <div class="attr-value">
+                        <input type="number" value="${a.value}" step="0.01" style="width: 70px;"
+                               onchange="updateItemAttr(${itemIndex}, '${fieldName}', '${a.id}', this.value)">
+                        <button class="btn btn-small btn-danger" style="padding: 2px 6px;" 
+                                onclick="updateItemAttr(${itemIndex}, '${fieldName}', '${a.id}', 0);showItemDetail(${itemIndex});">×</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color: var(--muted);">无</p>';
+
+            document.getElementById('modalTitle').textContent = `物品详情 - ${item.name}`;
+            document.getElementById('modalContent').innerHTML = `
+                <div class="attr-grid" style="margin-bottom: 12px;">
+                    <div class="attr-item">
+                        <span class="attr-name">类型</span>
+                        <span class="attr-value">${item.typeName}</span>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">等级</span>
+                        <div class="attr-value">
+                            <input type="number" value="${item.itemLv}" min="1" max="10" style="width: 50px;"
+                                   onchange="updateItemField(${itemIndex}, 'itemLv', this.value)">
+                        </div>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">品质</span>
+                        <div class="attr-value">
+                            <input type="number" value="${item.rareLv}" min="1" max="5" style="width: 50px;"
+                                   onchange="updateItemField(${itemIndex}, 'rareLv', this.value)">
+                        </div>
+                    </div>
+                </div>
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 10px; margin-bottom: 10px;">
+                    <div class="section-title" style="margin-bottom: 6px;">
+                        基础属性
+                        <button class="btn btn-small btn-secondary" style="float: right; padding: 2px 8px;" 
+                                onclick="openItemAttrSearch(${itemIndex}, 'baseAddData')">+ 添加</button>
+                    </div>
+                    ${renderAttrEdit(item.baseAddData, 'baseAddData')}
+                </div>
+                <div style="background: rgba(244,248,245,0.64); border-radius: 10px; padding: 10px;">
+                    <div class="section-title" style="margin-bottom: 6px;">
+                        附加属性
+                        <button class="btn btn-small btn-secondary" style="float: right; padding: 2px 8px;" 
+                                onclick="openItemAttrSearch(${itemIndex}, 'extraAddData')">+ 添加</button>
+                    </div>
+                    ${renderAttrEdit(item.extraAddData, 'extraAddData')}
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '关闭';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            // 添加删除按钮
+            document.getElementById('modalContent').innerHTML += `
+                <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between;">
+                    <button class="btn btn-danger" onclick="deleteItem(${itemIndex})">删除物品</button>
+                </div>
+            `;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function deleteItem(itemIndex) {
+            if (!confirm('确定要删除这个物品吗？')) return;
+            try {
+                await api(`/api/hero/${currentHero.heroID}/item/${itemIndex}`, { method: 'DELETE' });
+                toast('物品已删除');
+                closeModal();
+                loadItemsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        let currentItemSearchIndex = null;
+        let currentItemSearchField = null;
+
+        function openItemAttrSearch(itemIndex, fieldName) {
+            currentItemSearchIndex = itemIndex;
+            currentItemSearchField = fieldName;
+            document.getElementById('modalTitle').textContent = '添加属性';
+            document.getElementById('modalContent').innerHTML = `
+                <input type="text" class="search-box" id="itemAttrSearchInput" placeholder="输入属性名称或ID搜索..." oninput="filterItemAttrSearch()" style="margin-bottom: 12px;">
+                <div id="itemAttrSearchResults" style="max-height: 250px; overflow-y: auto;">
+                    <p style="color: var(--muted); text-align: center; padding: 20px;">输入关键字开始搜索</p>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = () => showItemDetail(itemIndex);
+        }
+
+        function filterItemAttrSearch() {
+            const q = document.getElementById('itemAttrSearchInput').value.toLowerCase().trim();
+            let filtered = allAttrs;
+            if (q) {
+                filtered = allAttrs.filter(a => 
+                    a.name.toLowerCase().includes(q) || 
+                    a.id === q ||
+                    a.id === String(parseInt(q))
+                );
+            }
+            const container = document.getElementById('itemAttrSearchResults');
+            container.innerHTML = filtered.slice(0, 30).map(a => `
+                <div class="folder-item" onclick="selectItemAttr('${a.id}', '${a.name}')">
+                    <strong>${a.name}</strong> <span style="color: var(--muted);">(ID: ${a.id})</span>
+                </div>
+            `).join('');
+        }
+
+        async function selectItemAttr(attrId, attrName) {
+            const value = prompt(`输入 ${attrName} 的值:`, '10');
+            if (value === null) return;
+            await updateItemAttr(currentItemSearchIndex, currentItemSearchField, attrId, value);
+            showItemDetail(currentItemSearchIndex);
+        }
+
+        async function updateItemAttr(itemIndex, fieldName, attrId, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/item/${itemIndex}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ fieldName, attrId, value: parseFloat(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateItemField(itemIndex, field, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/item/${itemIndex}`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ field, value: parseInt(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function removeItemsByType() {
+            const types = [
+                { id: 0, name: '武器' }, { id: 1, name: '护甲' }, { id: 2, name: '头盔' },
+                { id: 3, name: '鞋子' }, { id: 4, name: '饰品' }, { id: 5, name: '药品' },
+                { id: 6, name: '坐骑' }, { id: 7, name: '秘籍' }, { id: 8, name: '材料' },
+                { id: 9, name: '宝物' }, { id: 10, name: '杂项' }
+            ];
+            document.getElementById('modalTitle').textContent = '按类型删除物品';
+            document.getElementById('modalContent').innerHTML = `
+                <p style="margin-bottom: 12px; color: var(--muted);">选择要删除的物品类型：</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                    ${types.map(t => `
+                        <button class="btn btn-small btn-danger" onclick="confirmRemoveByType(${t.id}, '${t.name}')">${t.name}</button>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function confirmRemoveByType(typeId, typeName) {
+            if (!confirm(`确定要删除所有「${typeName}」类型的物品吗？`)) return;
+            try {
+                const result = await api(`/api/hero/${currentHero.heroID}/items/batch`, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'remove_all_type', type: typeId })
+                });
+                toast(`已删除 ${result.removed} 个物品`);
+                closeModal();
+                loadItemsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function removeDuplicateItems() {
+            if (!confirm('确定要删除重复物品吗？（保留每种名称的第一个）')) return;
+            try {
+                const result = await api(`/api/hero/${currentHero.heroID}/items/batch`, {
+                    method: 'POST',
+                    body: JSON.stringify({ action: 'remove_duplicates' })
+                });
+                toast(`已删除 ${result.removed} 个重复物品`);
+                loadItemsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        function openCreateItemModal() {
+            const itemTypes = [
+                {id: 0, name: '武器'},
+                {id: 1, name: '护甲'},
+                {id: 2, name: '头盔'},
+                {id: 3, name: '鞋子'},
+                {id: 4, name: '饰品'},
+                {id: 5, name: '药品'},
+                {id: 6, name: '坐骑'},
+                {id: 7, name: '秘籍'},
+                {id: 8, name: '材料'},
+                {id: 9, name: '宝物'},
+                {id: 10, name: '其他'},
+            ];
+            const rareLevels = [
+                {id: 0, name: '普通', stars: ''},
+                {id: 1, name: '优秀', stars: '★'},
+                {id: 2, name: '精良', stars: '★★'},
+                {id: 3, name: '稀有', stars: '★★★'},
+                {id: 4, name: '史诗', stars: '★★★★'},
+                {id: 5, name: '传说', stars: '★★★★★'},
+            ];
+            
+            document.getElementById('modalTitle').textContent = '创建物品';
+            document.getElementById('modalContent').innerHTML = `
+                <div style="display: grid; gap: 12px;">
+                    <div>
+                        <label style="display: block; font-size: 13px; margin-bottom: 6px;">物品名称</label>
+                        <input type="text" id="createItemName" value="新物品" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">物品类型</label>
+                            <select id="createItemType" class="slot-select" style="width: 100%; padding: 8px;">
+                                ${itemTypes.map(t => `<option value="${t.id}">${t.name}</option>`).join('')}
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">物品ID</label>
+                            <input type="number" id="createItemID" value="0" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">物品等级 (1-10)</label>
+                            <input type="number" id="createItemLv" value="1" min="1" max="10" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">品质等级</label>
+                            <select id="createItemRare" class="slot-select" style="width: 100%; padding: 8px;">
+                                ${rareLevels.map(r => `<option value="${r.id}">${r.stars} ${r.name}</option>`).join('')}
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">重量</label>
+                            <input type="number" id="createItemWeight" value="1" step="0.1" min="0" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 13px; margin-bottom: 6px;">价值</label>
+                            <input type="number" id="createItemValue" value="0" min="0" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '创建';
+            document.getElementById('modalConfirm').onclick = createItem;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function createItem() {
+            const item = {
+                name: document.getElementById('createItemName').value || '新物品',
+                type: parseInt(document.getElementById('createItemType').value),
+                itemID: parseInt(document.getElementById('createItemID').value) || 0,
+                itemLv: Math.max(1, Math.min(10, parseInt(document.getElementById('createItemLv').value) || 1)),
+                rareLv: parseInt(document.getElementById('createItemRare').value),
+                weight: parseFloat(document.getElementById('createItemWeight').value) || 1,
+                value: parseInt(document.getElementById('createItemValue').value) || 0,
+            };
+            
+            try {
+                const result = await api(`/api/hero/${currentHero.heroID}/item`, {
+                    method: 'POST',
+                    body: JSON.stringify(item)
+                });
+                toast(`已创建: ${item.name}`);
+                closeModal();
+                loadItemsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Talents Tab ==========
+        async function loadTalentsTab() {
+            const data = await api(`/api/hero/${currentHero.heroID}/talents`);
+            const content = document.getElementById('tabContent');
+
+            const talents = data.heroTagData || [];
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">天赋点</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">可用天赋点</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.heroTagPoint)}" style="width: 80px;"
+                                       onchange="updateTalentPoint(this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">
+                        已有天赋 <span class="count">${talents.length}个</span>
+                        <button class="btn btn-small btn-primary" style="margin-left: auto;" onclick="openAddTalentModal()">+ 添加天赋</button>
+                    </div>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <table style="font-size: 12px; width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 50px;">ID</th>
+                                    <th style="width: 100px;">名称</th>
+                                    <th style="width: 150px;">效果</th>
+                                    <th style="width: 80px;">持续时间</th>
+                                    <th style="width: 60px;">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${talents.map((t, idx) => `
+                                    <tr>
+                                        <td>
+                                            <input type="number" value="${t.tagID}" style="width: 50px;"
+                                                   onchange="updateTalentId(${idx}, this.value)">
+                                        </td>
+                                        <td style="font-weight: 500; color: var(--accent-deep);">
+                                            ${t.name || '未知'}
+                                        </td>
+                                        <td style="color: var(--muted); font-size: 11px; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${t.description || ''}">
+                                            ${t.description ? t.description.split(';')[0] : '-'}
+                                        </td>
+                                        <td>
+                                            <input type="number" value="${t.leftTime}" step="0.1" style="width: 70px;"
+                                                   onchange="updateTalentLeftTime(${idx}, this.value)">
+                                            <span style="color: var(--muted); font-size: 10px;">${t.leftTime === -1 ? '(永久)' : ''}</span>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-small btn-danger" onclick="deleteTalent(${t.tagID})">删除</button>
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">说明</div>
+                    <div style="font-size: 12px; color: var(--muted); line-height: 1.6;">
+                        <p>• 天赋ID (tagID) 对应游戏内的天赋序号，修改ID会自动更新名称</p>
+                        <p>• 持续时间 leftTime = -1 表示永久有效</p>
+                        <p>• 添加新天赋后需保存存档才能生效</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function updateTalentPoint(value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/talents`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ heroTagPoint: parseFloat(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateTalentId(idx, value) {
+            try {
+                const data = await api(`/api/hero/${currentHero.heroID}/talents`);
+                const tags = data.heroTagData;
+                if (tags[idx]) {
+                    tags[idx].tagID = parseInt(value);
+                    await api(`/api/hero/${currentHero.heroID}/talents`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ heroTagData: tags })
+                    });
+                    toast('已更新');
+                }
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateTalentLeftTime(idx, value) {
+            try {
+                const data = await api(`/api/hero/${currentHero.heroID}/talents`);
+                const tags = data.heroTagData;
+                if (tags[idx]) {
+                    tags[idx].leftTime = parseFloat(value);
+                    await api(`/api/hero/${currentHero.heroID}/talents`, {
+                        method: 'PUT',
+                        body: JSON.stringify({ heroTagData: tags })
+                    });
+                    toast('已更新');
+                }
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function deleteTalent(tagID) {
+            if (!confirm('确定删除该天赋吗？')) return;
+            try {
+                await api(`/api/hero/${currentHero.heroID}/talent/${tagID}`, { method: 'DELETE' });
+                toast('已删除');
+                loadTalentsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        function openAddTalentModal() {
+            document.getElementById('modalTitle').textContent = '添加天赋';
+            document.getElementById('modalContent').innerHTML = `
+                <div style="margin-bottom: 12px;">
+                    <input type="text" id="talentSearchInput" placeholder="搜索天赋名称..."
+                           style="width: 100%; padding: 8px 12px; border: 1px solid rgba(42, 74, 63, 0.11); border-radius: 8px; font-size: 13px;"
+                           oninput="searchTalents(this.value)">
+                </div>
+                <div class="attr-grid">
+                    <div class="attr-item">
+                        <span class="attr-name">天赋ID</span>
+                        <div class="attr-value">
+                            <input type="number" id="newTalentId" style="width: 80px;" value="0" onchange="updateTalentName()">
+                            <span id="talentNameDisplay" style="margin-left: 8px; color: var(--accent-deep); font-weight: 500;"></span>
+                        </div>
+                    </div>
+                    <div class="attr-item">
+                        <span class="attr-name">持续时间</span>
+                        <div class="attr-value">
+                            <input type="number" id="newTalentLeftTime" step="0.1" style="width: 80px;" value="-1">
+                            <span style="color: var(--muted); font-size: 10px;">-1=永久</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="talentSearchResults" style="max-height: 200px; overflow-y: auto; margin-top: 12px; border: 1px solid rgba(42, 74, 63, 0.1); border-radius: 8px; background: rgba(255,255,255,0.4);">
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '添加';
+            document.getElementById('modalConfirm').onclick = addNewTalent;
+            document.getElementById('modalOverlay').classList.add('active');
+            // 初始加载所有天赋
+            searchTalents('');
+        }
+
+        let allTalents = [];
+        async function searchTalents(query) {
+            try {
+                const results = await api(`/api/tags/search?q=${encodeURIComponent(query)}`);
+                allTalents = results;
+                const container = document.getElementById('talentSearchResults');
+                if (results.length === 0) {
+                    container.innerHTML = '<div style="padding: 12px; text-align: center; color: var(--muted);">无匹配结果</div>';
+                    return;
+                }
+                container.innerHTML = results.slice(0, 50).map(t => `
+                    <div style="padding: 8px 12px; cursor: pointer; border-bottom: 1px solid rgba(42, 74, 63, 0.05); transition: background 0.2s;"
+                         onmouseover="this.style.background='rgba(39,108,88,0.08)'"
+                         onmouseout="this.style.background='transparent'"
+                         onclick="selectTalent(${t.id}, '${t.name.replace(/'/g, "\\'")}')">
+                        <div style="font-weight: 500; font-size: 13px;">${t.name} <span style="color: var(--muted); font-size: 11px;">(ID:${t.id})</span></div>
+                        <div style="color: var(--muted); font-size: 11px; margin-top: 2px;">${t.description || ''}</div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('搜索天赋失败:', e);
+            }
+        }
+
+        function selectTalent(id, name) {
+            document.getElementById('newTalentId').value = id;
+            document.getElementById('talentNameDisplay').textContent = name;
+        }
+
+        function updateTalentName() {
+            const id = parseInt(document.getElementById('newTalentId').value);
+            const talent = allTalents.find(t => t.id === id);
+            document.getElementById('talentNameDisplay').textContent = talent ? talent.name : '';
+        }
+
+        async function addNewTalent() {
+            const tagID = parseInt(document.getElementById('newTalentId').value);
+            const leftTime = parseFloat(document.getElementById('newTalentLeftTime').value);
+            
+            try {
+                await api(`/api/hero/${currentHero.heroID}/talent`, {
+                    method: 'POST',
+                    body: JSON.stringify({ tagID })
+                });
+                // 更新 leftTime
+                if (leftTime !== -1) {
+                    const data = await api(`/api/hero/${currentHero.heroID}/talents`);
+                    const tags = data.heroTagData;
+                    const newTag = tags.find(t => t.tagID === tagID);
+                    if (newTag) {
+                        newTag.leftTime = leftTime;
+                        await api(`/api/hero/${currentHero.heroID}/talents`, {
+                            method: 'PUT',
+                            body: JSON.stringify({ heroTagData: tags })
+                        });
+                    }
+                }
+                closeModal();
+                toast('已添加');
+                loadTalentsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Details Tab ==========
+        async function loadDetailsTab() {
+            await loadAllAttrs();
+            const data = await api(`/api/hero/${currentHero.heroID}/details`);
+            const content = document.getElementById('tabContent');
+
+            const renderAttrRow = (attrId, value, editable = true) => {
+                const attrName = getAttrName(attrId);
+                const displayValue = typeof value === 'number' ? 
+                    (value >= 1 ? Math.floor(value) : (value * 100).toFixed(1) + '%') : value;
+                return `
+                    <div class="attr-item">
+                        <span class="attr-name">${attrName}</span>
+                        <div class="attr-value">
+                            ${editable ? 
+                                `<input type="number" value="${value}" step="0.01" style="width: 80px;" 
+                                        onchange="updateDetailAttr('${attrId}', this.value)">` :
+                                `<span>${displayValue}</span>`
+                            }
+                        </div>
+                    </div>
+                `;
+            };
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">状态信息</div>
+                    <div class="attr-grid">
+                        ${renderAttrRow('生命上限', data.realMaxHp, false)}
+                        ${renderAttrRow('体力上限', data.realMaxPower, false)}
+                        ${renderAttrRow('内力上限', data.realMaxMana, false)}
+                        ${renderAttrRow('护甲', data.armor, false)}
+                        ${renderAttrRow('战斗分', data.fightScore, false)}
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">
+                        详细属性加成
+                        <span style="color: var(--muted); font-weight: normal; font-size: 12px;">（可修改）</span>
+                    </div>
+                    <div class="attr-grid">
+                        ${Object.entries(data.baseAddData).map(([id, val]) => renderAttrRow(id, val)).join('')}
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">总属性加成 <span class="count">(只读)</span></div>
+                    <div class="attr-grid">
+                        ${Object.entries(data.totalAddData).slice(0, 24).map(([id, val]) => renderAttrRow(id, val, false)).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function updateDetailAttr(attrId, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/detail_attr`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ attrId, value: parseFloat(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Force Tab ==========
+        async function loadForceTab() {
+            const data = await api(`/api/hero/${currentHero.heroID}/force`);
+            let contribData = {contributions: []};
+            try {
+                contribData = await api(`/api/hero/${currentHero.heroID}/force_contributions`);
+            } catch (e) {
+                // 非主角没有各派功绩
+            }
+            const content = document.getElementById('tabContent');
+            
+            let contributionsHtml = '';
+            if (contribData.contributions && contribData.contributions.length > 0) {
+                contributionsHtml = `
+                <div class="section">
+                    <div class="section-title">各派功绩 <span class="count">(仅主角)</span></div>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <table style="font-size: 12px;">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30px;">ID</th>
+                                    <th style="width: 120px;">门派</th>
+                                    <th style="width: 100px;">功绩</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${contribData.contributions.map(c => `
+                                    <tr>
+                                        <td>${c.forceID}</td>
+                                        <td>${c.forceName}</td>
+                                        <td>
+                                            <input type="number" value="${Math.floor(c.contribution)}" style="width: 80px;"
+                                                   onchange="updateForceContribution(${c.forceID}, this.value)">
+                                        </td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>`;
+            }
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">所属门派</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">门派</span>
+                            <span class="attr-value">${data.forceName}</span>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">门派等级</span>
+                            <div class="attr-value">
+                                <input type="number" value="${data.heroForceLv}" min="1" max="10" style="width: 60px;"
+                                       onchange="updateForceField('heroForceLv', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">门派功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.forceContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('forceContribution', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">功绩记录</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">本年功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.thisYearContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('thisYearContribution', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">去年功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.lastYearContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('lastYearContribution', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">本月功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.thisMonthContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('thisMonthContribution', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">上月功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.lastMonthContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('lastMonthContribution', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">上次战斗功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.lastFightContribution)}" style="width: 80px;"
+                                       onchange="updateForceField('lastFightContribution', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">治理功绩</span>
+                            <div class="attr-value">
+                                <input type="number" value="${Math.floor(data.governContribution)}" style="width: 100px;"
+                                       onchange="updateForceField('governContribution', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                ${contributionsHtml}
+                <div class="section">
+                    <div class="section-title">其他</div>
+                    <div class="attr-grid">
+                        <div class="attr-item">
+                            <span class="attr-name">门派职位ID</span>
+                            <div class="attr-value">
+                                <input type="number" value="${data.forceJobID}" style="width: 60px;"
+                                       onchange="updateForceField('forceJobID', this.value)">
+                            </div>
+                        </div>
+                        <div class="attr-item">
+                            <span class="attr-name">门派职位类型</span>
+                            <div class="attr-value">
+                                <input type="number" value="${data.forceJobType}" style="width: 60px;"
+                                       onchange="updateForceField('forceJobType', this.value)">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        async function updateForceField(field, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/force`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ [field]: parseFloat(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateForceContribution(forceID, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/force_contributions`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ forceID, contribution: parseFloat(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Relations Tab ==========
+        async function loadRelationsTab() {
+            const data = await api(`/api/hero/${currentHero.heroID}/relations`);
+            const favorData = await api(`/api/hero/${currentHero.heroID}/favor`);
+            const allFavors = await api(`/api/heroes/favor`);
+            const content = document.getElementById('tabContent');
+
+            // 好感度状态样式
+            const getFavorStyle = (favor) => {
+                if (favor === -999999.0) return { text: '未知', color: '#808080', bg: 'rgba(128,128,128,0.15)' };
+                if (favor >= 80) return { text: '挚爱', color: '#ff1493', bg: 'rgba(255,20,147,0.15)' };
+                if (favor >= 60) return { text: '亲密', color: '#ff69b4', bg: 'rgba(255,105,180,0.15)' };
+                if (favor >= 40) return { text: '友善', color: '#4caf50', bg: 'rgba(76,175,80,0.15)' };
+                if (favor >= 20) return { text: '略有好感', color: '#8bc34a', bg: 'rgba(139,195,74,0.15)' };
+                if (favor >= 0) return { text: '中立', color: '#9e9e9e', bg: 'rgba(158,158,158,0.15)' };
+                if (favor >= -20) return { text: '略有不悦', color: '#ff9800', bg: 'rgba(255,152,0,0.15)' };
+                if (favor >= -40) return { text: '厌恶', color: '#ff5722', bg: 'rgba(255,87,34,0.15)' };
+                if (favor >= -60) return { text: '憎恨', color: '#f44336', bg: 'rgba(244,67,54,0.15)' };
+                if (favor >= -80) return { text: '仇敌', color: '#c62828', bg: 'rgba(198,40,40,0.15)' };
+                return { text: '死敌', color: '#8b0000', bg: 'rgba(139,0,0,0.15)' };
+            };
+
+            const currentFavorStyle = getFavorStyle(favorData.favor);
+
+            content.innerHTML = `
+                <div class="section">
+                    <div class="section-title">当前好感度</div>
+                    <div style="display: flex; align-items: center; gap: 16px; flex-wrap: wrap;">
+                        <div style="background: ${currentFavorStyle.bg}; border-radius: 12px; padding: 12px 20px;">
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">状态</div>
+                            <div style="font-size: 18px; font-weight: 600; color: ${currentFavorStyle.color};">${currentFavorStyle.text}</div>
+                        </div>
+                        <div style="background: rgba(244,248,245,0.64); border-radius: 12px; padding: 12px 20px;">
+                            <div style="font-size: 12px; color: var(--muted); margin-bottom: 4px;">好感值</div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <input type="number" value="${favorData.favor === -999999.0 ? -999999 : favorData.favor.toFixed(2)}"
+                                       step="1" style="width: 100px; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border);"
+                                       id="favorInput">
+                                <button class="btn btn-small btn-primary" onclick="updateFavor()">修改</button>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <button class="btn btn-small btn-secondary" onclick="setFavorQuick(-999999)">重置未知</button>
+                            <button class="btn btn-small btn-secondary" onclick="setFavorQuick(100)">满好感</button>
+                            <button class="btn btn-small btn-secondary" onclick="setFavorQuick(-100)">满厌恶</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">好友 <span class="count">${data.friends.length}</span></div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <button class="btn btn-small btn-primary" onclick="openAddRelationModal('friend')">+ 添加好友</button>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${data.friends.map(f => `<span class="hero-badge badge-team" style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="showHeroFavor(${f.id})">${f.name}<button class="btn btn-small btn-danger" style="padding: 1px 4px; font-size: 10px;" onclick="event.stopPropagation(); removeRelation('friend', ${f.id})">×</button></span>`).join('') || '<span style="color: var(--muted);">无好友</span>'}
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">仇人 <span class="count">${data.haters.length}</span></div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+                        <button class="btn btn-small btn-primary" onclick="openAddRelationModal('hater')">+ 添加仇人</button>
+                    </div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${data.haters.map(h => `<span class="hero-badge badge-dead" style="cursor: pointer; display: flex; align-items: center; gap: 4px;" onclick="showHeroFavor(${h.id})">${h.name}<button class="btn btn-small btn-danger" style="padding: 1px 4px; font-size: 10px;" onclick="event.stopPropagation(); removeRelation('hater', ${h.id})">×</button></span>`).join('') || '<span style="color: var(--muted);">无仇人</span>'}
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">恋人</div>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <button class="btn btn-small btn-primary" onclick="openAddRelationModal('lover')">设置恋人</button>
+                        <span id="loverDisplay" style="padding: 6px 12px; background: rgba(255,182,193,0.3); border-radius: 8px;">
+                            ${data.lover ? `<span style="cursor: pointer;" onclick="showHeroFavor(${data.lover.id})">${data.lover.name}</span> <button class="btn btn-small btn-danger" style="padding: 1px 4px; font-size: 10px;" onclick="removeRelation('lover', -1)">×</button>` : '<span style="color: var(--muted);">无恋人</span>'}
+                        </span>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="section-title">徒弟 <span class="count">${data.students.length}</span></div>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${data.students.map(s => `<span class="hero-badge" style="cursor: pointer;" onclick="showHeroFavor(${s.id})">${s.name}</span>`).join('') || '<span style="color: var(--muted);">无徒弟</span>'}
+                    </div>
+                </div>
+                ${data.teacher ? `
+                    <div class="section">
+                        <div class="section-title">师父</div>
+                        <span class="hero-badge badge-team" style="cursor: pointer;" onclick="showHeroFavor(${data.teacher.id})">${data.teacher.name}</span>
+                    </div>
+                ` : ''}
+                <div class="section">
+                    <div class="section-title">所有角色好感度</div>
+                    <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                        <select id="favorFilterSelect" class="slot-select" style="padding: 6px 12px;" onchange="filterFavorList()">
+                            <option value="all">全部</option>
+                            <option value="known">已认识</option>
+                            <option value="unknown">未认识</option>
+                            <option value="positive">好感 (≥0)</option>
+                            <option value="negative">厌恶 (<0)</option>
+                        </select>
+                        <button class="btn btn-small btn-secondary" onclick="batchSetFavorAll()">批量设置好感度</button>
+                    </div>
+                    <div id="favorList" style="max-height: 300px; overflow-y: auto; display: flex; flex-wrap: wrap; gap: 6px;">
+                        ${allFavors.filter(h => !h.isUnknown).map(h => {
+                            const style = getFavorStyle(h.favor);
+                            return `<span class="hero-badge" style="background: ${style.bg}; color: ${style.color}; cursor: pointer;"
+                                         onclick="showHeroFavor(${h.heroID})" title="${style.text}: ${h.favor.toFixed(1)}">${h.heroName}</span>`;
+                        }).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        async function showHeroFavor(heroId) {
+            // 找到该角色并显示其详情
+            for (const h of heroes) {
+                if (h.heroID === heroId) {
+                    await selectHero(heroId);
+                    break;
+                }
+            }
+        }
+
+        async function updateFavor() {
+            const value = parseFloat(document.getElementById('favorInput').value);
+            try {
+                await api(`/api/hero/${currentHero.heroID}/favor`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ favor: value })
+                });
+                toast('好感度已更新');
+                loadRelationsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function setFavorQuick(value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/favor`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ favor: value })
+                });
+                toast('好感度已更新');
+                loadRelationsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        function openAddRelationModal(relationType) {
+            const titles = { friend: '添加好友', hater: '添加仇人', lover: '设置恋人' };
+            document.getElementById('modalTitle').textContent = titles[relationType];
+            document.getElementById('modalContent').innerHTML = `
+                <input type="text" class="search-box" id="relationSearchInput" placeholder="输入角色名称搜索..." oninput="filterRelationSearch('${relationType}')" style="margin-bottom: 12px;">
+                <div id="relationSearchResults" style="max-height: 300px; overflow-y: auto;">
+                    <p style="color: var(--muted); text-align: center; padding: 20px;">输入关键字开始搜索</p>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        function filterRelationSearch(relationType) {
+            const q = document.getElementById('relationSearchInput').value.toLowerCase().trim();
+            const container = document.getElementById('relationSearchResults');
+            
+            let filtered = heroes.filter(h => {
+                if (h.heroID === currentHero.heroID) return false;
+                if (!q) return true;
+                return h.heroName.toLowerCase().includes(q);
+            });
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<p style="color: var(--muted); text-align: center;">未找到角色</p>';
+                return;
+            }
+
+            container.innerHTML = filtered.slice(0, 50).map(h => `
+                <div class="folder-item" onclick="addRelation('${relationType}', ${h.heroID}, '${h.heroName}')">
+                    <strong>${h.heroName}</strong>
+                    <span style="font-size: 12px; color: var(--muted); margin-left: 8px;">ID: ${h.heroID}</span>
+                </div>
+            `).join('');
+        }
+
+        async function addRelation(relationType, targetId, targetName) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/relations`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ action: 'add', type: relationType, targetID: targetId })
+                });
+                toast(`已添加${relationType === 'friend' ? '好友' : relationType === 'hater' ? '仇人' : '恋人'}: ${targetName}`);
+                closeModal();
+                await selectHero(currentHero.heroID);
+                loadRelationsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function removeRelation(relationType, targetId) {
+            const typeNames = { friend: '好友', hater: '仇人', lover: '恋人' };
+            if (!confirm(`确定要移除${typeNames[relationType]}吗？`)) return;
+            
+            try {
+                await api(`/api/hero/${currentHero.heroID}/relations`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ action: 'remove', type: relationType, targetID: targetId })
+                });
+                toast(`已移除${typeNames[relationType]}`);
+                await selectHero(currentHero.heroID);
+                loadRelationsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function filterFavorList() {
+            const filter = document.getElementById('favorFilterSelect').value;
+            const allFavors = await api('/api/heroes/favor');
+            const container = document.getElementById('favorList');
+
+            const getFavorStyle = (favor) => {
+                if (favor === -999999.0) return { text: '未知', color: '#808080', bg: 'rgba(128,128,128,0.15)' };
+                if (favor >= 80) return { text: '挚爱', color: '#ff1493', bg: 'rgba(255,20,147,0.15)' };
+                if (favor >= 60) return { text: '亲密', color: '#ff69b4', bg: 'rgba(255,105,180,0.15)' };
+                if (favor >= 40) return { text: '友善', color: '#4caf50', bg: 'rgba(76,175,80,0.15)' };
+                if (favor >= 20) return { text: '略有好感', color: '#8bc34a', bg: 'rgba(139,195,74,0.15)' };
+                if (favor >= 0) return { text: '中立', color: '#9e9e9e', bg: 'rgba(158,158,158,0.15)' };
+                if (favor >= -20) return { text: '略有不悦', color: '#ff9800', bg: 'rgba(255,152,0,0.15)' };
+                if (favor >= -40) return { text: '厌恶', color: '#ff5722', bg: 'rgba(255,87,34,0.15)' };
+                if (favor >= -60) return { text: '憎恨', color: '#f44336', bg: 'rgba(244,67,54,0.15)' };
+                if (favor >= -80) return { text: '仇敌', color: '#c62828', bg: 'rgba(198,40,40,0.15)' };
+                return { text: '死敌', color: '#8b0000', bg: 'rgba(139,0,0,0.15)' };
+            };
+
+            let filtered = allFavors;
+            if (filter === 'known') filtered = allFavors.filter(h => !h.isUnknown);
+            else if (filter === 'unknown') filtered = allFavors.filter(h => h.isUnknown);
+            else if (filter === 'positive') filtered = allFavors.filter(h => !h.isUnknown && h.favor >= 0);
+            else if (filter === 'negative') filtered = allFavors.filter(h => !h.isUnknown && h.favor < 0);
+
+            container.innerHTML = filtered.map(h => {
+                const style = getFavorStyle(h.favor);
+                return `<span class="hero-badge" style="background: ${style.bg}; color: ${style.color}; cursor: pointer;"
+                             onclick="showHeroFavor(${h.heroID})" title="${style.text}: ${h.favor.toFixed(1)}">${h.heroName}</span>`;
+            }).join('') || '<span style="color: var(--muted);">无匹配角色</span>';
+        }
+
+        async function batchSetFavorAll() {
+            document.getElementById('modalTitle').textContent = '批量设置好感度';
+            document.getElementById('modalContent').innerHTML = `
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 13px; margin-bottom: 6px;">目标范围</label>
+                    <select id="batchFavorMode" class="slot-select" style="width: 100%;">
+                        <option value="all">所有角色</option>
+                        <option value="team">当前队伍</option>
+                        <option value="force">指定门派</option>
+                    </select>
+                </div>
+                <div id="batchFavorForceSelect" style="display: none; margin-bottom: 12px;">
+                    <label style="display: block; font-size: 13px; margin-bottom: 6px;">选择门派</label>
+                    <select id="batchFavorForceId" class="slot-select" style="width: 100%;">
+                        <option value="1">少林派</option>
+                        <option value="2">武当派</option>
+                        <option value="3">峨眉派</option>
+                        <option value="4">丐帮</option>
+                        <option value="5">华山派</option>
+                        <option value="6">衡山派</option>
+                        <option value="7">青城派</option>
+                        <option value="8">点苍派</option>
+                        <option value="9">昆仑派</option>
+                        <option value="10">崆峒派</option>
+                        <option value="11">天山派</option>
+                        <option value="12">雪山派</option>
+                        <option value="13">点星阁</option>
+                        <option value="14">五毒教</option>
+                        <option value="15">明教</option>
+                        <option value="16">日月神教</option>
+                        <option value="17">红花会</option>
+                        <option value="18">天地会</option>
+                        <option value="19">六扇门</option>
+                        <option value="20">锦衣卫</option>
+                    </select>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <label style="display: block; font-size: 13px; margin-bottom: 6px;">好感值 (-999999=未知, -100~100)</label>
+                    <input type="number" id="batchFavorValue" class="slot-select" style="width: 100%;" value="100" step="1">
+                </div>
+            `;
+            document.getElementById('batchFavorMode').onchange = function() {
+                document.getElementById('batchFavorForceSelect').style.display = this.value === 'force' ? 'block' : 'none';
+            };
+            document.getElementById('modalConfirm').textContent = '确定';
+            document.getElementById('modalConfirm').onclick = async () => {
+                const mode = document.getElementById('batchFavorMode').value;
+                const value = parseFloat(document.getElementById('batchFavorValue').value);
+                const body = { favor: value, mode };
+                if (mode === 'force') {
+                    body.forceID = parseInt(document.getElementById('batchFavorForceId').value);
+                }
+                try {
+                    const result = await api('/api/heroes/favor/batch', {
+                        method: 'POST',
+                        body: JSON.stringify(body)
+                    });
+                    toast(`已更新 ${result.count} 个角色的好感度`);
+                    closeModal();
+                    loadRelationsTab();
+                } catch (e) {
+                    toast(e.message, 'error');
+                }
+            };
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        // ========== Update Functions ==========
+        async function updateAttr(type, idx, value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/attr`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ type, index: idx, value: parseInt(value) })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateTalent(value) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/talent`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ talent: parseInt(value) })
+                });
+                currentHero.talent = parseInt(value);
+                toast('天赋已更新');
+                showTab('basic');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateFame(type, value) {
+            try {
+                const body = type === 'fame' ? { fame: parseInt(value) } : { badFame: parseInt(value) };
+                await api(`/api/hero/${currentHero.heroID}/fame`, {
+                    method: 'PUT',
+                    body: JSON.stringify(body)
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateMoney(value) {
+            try {
+                const money = Math.min(999999, Math.max(0, parseInt(value) || 0));
+                await api(`/api/hero/${currentHero.heroID}/money`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ money })
+                });
+                toast('已更新');
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function updateSkillLv(idx, value) {
+            await updateSkillField(idx, 'lv', parseInt(value));
+        }
+
+        async function deleteSkill(idx) {
+            if (!confirm('确定要删除这个武功吗？')) return;
+            try {
+                await api(`/api/hero/${currentHero.heroID}/skill/${idx}`, { method: 'DELETE' });
+                toast('已删除');
+                loadSkillsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Actions ==========
+        async function heroAction(action) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/action`, {
+                    method: 'POST',
+                    body: JSON.stringify({ action })
+                });
+                toast('操作成功');
+                await selectHero(currentHero.heroID);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        async function batchAction(action) {
+            if (!confirm(`确定要对所有角色执行「${action}」操作吗？`)) return;
+            try {
+                const data = await api('/api/batch/action', {
+                    method: 'POST',
+                    body: JSON.stringify({ action })
+                });
+                toast(`已处理 ${data.count} 个角色`);
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Add Skill Modal ==========
+        function openAddSkillModal() {
+            document.getElementById('modalTitle').textContent = '添加武功';
+            document.getElementById('modalContent').innerHTML = `
+                <input type="text" class="search-box" id="skillSearchInput" placeholder="输入武功名称搜索..." oninput="searchSkills()" style="margin-bottom: 12px;">
+                <div id="skillSearchResults" style="max-height: 300px; overflow-y: auto;">
+                    <p style="color: var(--muted); text-align: center; padding: 20px;">输入武功名称开始搜索</p>
+                </div>
+            `;
+            document.getElementById('modalConfirm').textContent = '取消';
+            document.getElementById('modalConfirm').onclick = closeModal;
+            document.getElementById('modalOverlay').classList.add('active');
+        }
+
+        async function searchSkills() {
+            const q = document.getElementById('skillSearchInput').value;
+            if (!q.trim()) return;
+
+            const results = await api(`/api/skills/search?q=${encodeURIComponent(q)}`);
+            const container = document.getElementById('skillSearchResults');
+
+            if (results.length === 0) {
+                container.innerHTML = '<p style="color: var(--muted); text-align: center;">未找到武功</p>';
+                return;
+            }
+
+            container.innerHTML = results.map(s => `
+                <div class="folder-item" onclick="addSkill(${s.id}, '${s.name}')">
+                    <strong>${s.name}</strong>
+                    <span class="skill-type ${s.type}" style="margin-left: 8px;">${s.type}</span>
+                </div>
+            `).join('');
+        }
+
+        async function addSkill(skillId, skillName) {
+            try {
+                await api(`/api/hero/${currentHero.heroID}/skill`, {
+                    method: 'POST',
+                    body: JSON.stringify({ skillID: skillId, lv: 10 })
+                });
+                toast(`已添加: ${skillName}`);
+                closeModal();
+                loadSkillsTab();
+            } catch (e) {
+                toast(e.message, 'error');
+            }
+        }
+
+        // ========== Init ==========
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadSavedSlot();
+            
+            const status = await api('/api/status');
+            if (status.loaded) {
+                loadHeroes();
+                document.getElementById('statusBadge').textContent = `${status.hero_count} 角色`;
+                document.getElementById('statusBadge').className = 'status-badge success';
+            }
+            if (status.save_folder) {
+                saveFolder = status.save_folder;
+            }
+            
+            const savedFolder = localStorage.getItem('longying_save_folder');
+            if (savedFolder && !status.save_folder) {
+                try {
+                    await api('/api/save_folder', { method: 'POST', body: JSON.stringify({ folder: savedFolder }) });
+                    saveFolder = savedFolder;
+                } catch (e) {}
+            }
+            
+            if (saveFolder) {
+                updateSlotInfo();
+            }
+        });
+    </script>
+</body>
+</html>

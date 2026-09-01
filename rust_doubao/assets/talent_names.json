@@ -1,0 +1,27 @@
+{
+  "0": {
+    "name": "愚钝",
+    "description": "资质愚钝，修炼速度较慢",
+    "color": "#808080"
+  },
+  "1": {
+    "name": "平庸",
+    "description": "资质平庸，修炼速度一般",
+    "color": "#a0a0a0"
+  },
+  "2": {
+    "name": "普通",
+    "description": "资质普通，修炼速度正常",
+    "color": "#ffffff"
+  },
+  "3": {
+    "name": "聪慧",
+    "description": "天资聪慧，修炼速度较快",
+    "color": "#4fc3f7"
+  },
+  "4": {
+    "name": "天纵",
+    "description": "天纵奇才，修炼速度极快",
+    "color": "#ffd700"
+  }
+}
