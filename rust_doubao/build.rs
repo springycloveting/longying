@@ -1,9 +1,20 @@
-// build.rs - 编译期压缩内嵌资源，减小最终 exe 体积
+// build.rs - 编译期压缩内嵌资源 + 嵌入 Windows 版本资源
 use std::env;
 use std::fs;
 use std::path::PathBuf;
 
 fn main() {
+    // 嵌入 Windows 版本资源（仅 Windows 目标）
+    if env::var("CARGO_CFG_TARGET_OS").map(|v| v == "windows").unwrap_or(false) {
+        let mut res = winresource::WindowsResource::new();
+        res.set("FileVersion", "1.1.0")
+            .set("ProductVersion", "1.1.0")
+            .set("ProductName", "龙胤立志传 - Web 存档修改器")
+            .set("FileDescription", "龙胤立志传 - Web 存档修改器 (Rust 版)")
+            .set("LegalCopyright", "© 2026");
+        let _ = res.compile();
+    }
+
     println!("cargo:rerun-if-changed=assets");
     let out = PathBuf::from(env::var("OUT_DIR").unwrap());
 
