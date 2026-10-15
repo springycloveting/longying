@@ -240,6 +240,20 @@
             color: #e94560;
         }
 
+        .kungfu-force {
+            margin-left: auto;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            background: rgba(78, 205, 196, 0.18);
+            color: #4ecdc4;
+            white-space: nowrap;
+        }
+
+        .kungfu-header .kungfu-type {
+            margin-left: 6px;
+        }
+
         .kungfu-desc {
             font-size: 0.85rem;
             color: #888;
@@ -365,6 +379,30 @@
                 <option value="2">丁品</option>
                 <option value="1">戊品</option>
                 <option value="0">己品</option>
+            </select>
+            <select id="forceFilter">
+                <option value="">全部门派</option>
+                <option value="-1">江湖（无门派）</option>
+                <option value="0">长乐帮</option>
+                <option value="10">少林寺</option>
+                <option value="11">武当派</option>
+                <option value="14">峨眉派</option>
+                <option value="3">丐帮</option>
+                <option value="1">唐门</option>
+                <option value="2">药王谷</option>
+                <option value="4">飞龙门</option>
+                <option value="5">茅山派</option>
+                <option value="6">铸剑山庄</option>
+                <option value="7">五毒教</option>
+                <option value="8">阎罗殿</option>
+                <option value="9">大隐阁</option>
+                <option value="12">霸刀门</option>
+                <option value="13">蓬莱派</option>
+                <option value="15">崆峒派</option>
+                <option value="16">神机门</option>
+                <option value="17">霹雳堂</option>
+                <option value="18">金刚密宗</option>
+                <option value="19">天山派</option>
             </select>
             <select id="attrFilter">
                 <option value="">筛选属性...</option>
@@ -22086,6 +22124,29 @@
   }
 ];
 
+        // 所属门派（数据来源：kungfudata.csv 的“所属势力”，ID映射取自存档 Forces）
+        const FORCE_NAMES = {
+            [-1]: '江湖', 0: '长乐帮', 1: '唐门', 2: '药王谷', 3: '丐帮', 4: '飞龙门',
+            5: '茅山派', 6: '铸剑山庄', 7: '五毒教', 8: '阎罗殿', 9: '大隐阁',
+            10: '少林寺', 11: '武当派', 12: '霸刀门', 13: '蓬莱派', 14: '峨眉派',
+            15: '崆峒派', 16: '神机门', 17: '霹雳堂', 18: '金刚密宗', 19: '天山派'
+        };
+        // [势力ID, 连续武功数量]，按武功ID顺序展开
+        const FORCE_RLE = [[-1,288],[0,31],[1,35],[2,31],[3,36],[4,36],[5,40],[6,30],[7,42],[8,38],[9,40],[10,46],[11,39],[12,29],[13,33],[14,33],[15,31],[16,31],[17,29],[18,37],[19,37],[-1,59]];
+        const kungfuForce = (() => {
+            const map = new Int8Array(kungfuData.length);
+            let idx = 0;
+            FORCE_RLE.forEach(([forceId, count]) => {
+                map.fill(forceId, idx, idx + count);
+                idx += count;
+            });
+            return map;
+        })();
+
+        function forceNameOf(kungfu) {
+            return FORCE_NAMES[kungfuForce[kungfu.id]] || '江湖';
+        }
+
         // 类型顺序
         const typeOrder = ['内功', '轻功', '绝技', '拳掌', '剑法', '刀法', '长兵', '奇门', '射术'];
 
@@ -22108,6 +22169,7 @@
         let currentAttrFilter = '';
         let currentAttrField = 'all';
         let currentLevelFilter = '';
+        let currentForceFilter = '';
 
         // 所有属性名称列表
         const allAttrNames = getUniqueAttrNames();
@@ -22187,6 +22249,12 @@
                 currentLevelFilter = e.target.value;
                 renderKungfuList();
             });
+
+            // 门派筛选
+            document.getElementById('forceFilter').addEventListener('change', (e) => {
+                currentForceFilter = e.target.value;
+                renderKungfuList();
+            });
         }
 
         // 检查武功是否包含指定属性
@@ -22233,6 +22301,12 @@
             // 按品级筛选
             if (currentLevelFilter !== '') {
                 filteredData = filteredData.filter(k => k.level === parseInt(currentLevelFilter));
+            }
+
+            // 按门派筛选
+            if (currentForceFilter !== '') {
+                const forceId = parseInt(currentForceFilter);
+                filteredData = filteredData.filter(k => kungfuForce[k.id] === forceId);
             }
 
             // 更新显示数量
@@ -22368,6 +22442,7 @@
                     <div class="kungfu-header">
                         <span class="kungfu-id">${kungfu.id}</span>
                         <span class="kungfu-name">${kungfu.name}</span>
+                        <span class="kungfu-force">${forceNameOf(kungfu)}</span>
                         <span class="kungfu-type" style="background: ${color}22; color: ${color}">${kungfu.type}</span>
                     </div>
                     <div class="kungfu-desc">${kungfu.desc || '暂无描述'}</div>
